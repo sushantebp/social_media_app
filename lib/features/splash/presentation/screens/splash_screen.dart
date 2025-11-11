@@ -1,7 +1,10 @@
 import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/core/core.dart';
+import 'package:social_media_app/features/onboarding/cubit/onboarding_cubit.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -31,12 +34,13 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    // Navigate to login after 2 seconds
     Timer(const Duration(seconds: 2), () {
-      if (mounted) {
-        // in future me will use logic
-        // to check for to go to login or onboarding screen
-        // for now jus to onboarding
+      if (!mounted) return;
+
+      final onboardingCubit = context.read<OnboardingCubit>();
+      if (onboardingCubit.state) {
+        context.router.replace(const UserLoginRoute());
+      } else {
         context.router.replace(const OnboardingRoute());
       }
     });
@@ -56,7 +60,11 @@ class _SplashScreenState extends State<SplashScreen>
         child: Center(
           child: ScaleTransition(
             scale: _animation,
-            child: Image.asset(AppIcon.appIcon, width: 120, height: 120),
+            child: Image.asset(
+              AppIcon.appIcon,
+              width: context.screenWidth * 0.34,
+              height: context.screenHeight * 0.2,
+            ),
           ),
         ),
       ),

@@ -7,4 +7,6 @@ class AppConstant {
   // related to box,hive (local storage)
   static const String userInfoBox = "user-info";
   static const String userInfoKey = "user-key";
+  // onboarding related
+  static const String completed = "completed";
 }

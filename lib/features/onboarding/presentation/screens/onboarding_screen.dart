@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:social_media_app/core/core.dart';
+import 'package:social_media_app/features/onboarding/onboarding.dart';
 
 @RoutePage()
 class OnboardingScreen extends StatelessWidget {
@@ -9,6 +11,8 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<OnboardingCubit>();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -47,7 +51,10 @@ class OnboardingScreen extends StatelessWidget {
               const SizedBox(height: AppSize.spaceExtraLarge),
               AppButton(
                 title: 'Get Started',
-                onPressed: () => context.router.replace(const UserLoginRoute()),
+                onPressed: () {
+                  cubit.completeOnboarding();
+                  context.router.replace(const UserLoginRoute());
+                },
                 width: double.infinity,
                 type: AppButtonType.primary,
               ),
