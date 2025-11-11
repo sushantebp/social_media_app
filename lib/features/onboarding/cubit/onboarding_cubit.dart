@@ -7,9 +7,9 @@ class OnboardingCubit extends HydratedCubit<bool> {
   void completeOnboarding() => emit(true);
 
   @override
-  bool? fromJson(Map<String, dynamic> json) =>
-      json[AppConstant.completed] as bool?;
+  Map<String, dynamic>? toJson(bool state) => {AppConstant.completed: state};
 
   @override
-  Map<String, dynamic>? toJson(bool state) => {AppConstant.completed: state};
+  bool? fromJson(Map<String, dynamic> json) =>
+      json[AppConstant.completed] as bool?;
 }

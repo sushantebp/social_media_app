@@ -6,5 +6,9 @@ abstract class AuthRepository {
     UserRegisterRequestModel request,
   );
 
+  Future<Result<CommonResponseModel>> verifyEmail(
+    VerifyEmailRequestModel request,
+  );
+
   Future<void> logoutUser();
 }

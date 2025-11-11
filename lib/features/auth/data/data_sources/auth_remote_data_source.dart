@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:social_media_app/core/constants/api_endpoint.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
@@ -6,6 +7,10 @@ import 'package:social_media_app/features/auth/auth.dart';
 abstract class AuthRemoteDataSource {
   Future<UserRegisterResponseModel> registerUser(
     UserRegisterRequestModel request,
+  );
+
+  Future<Result<CommonResponseModel>> verifyEmail(
+    VerifyEmailRequestModel request,
   );
 
   Future<void> logoutUser();
@@ -30,6 +35,34 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           response.data,
         );
         return responseDataModel;
+      } else {
+        throw DioAppException.fromDioError(
+          DioException(
+            requestOptions: response.requestOptions,
+            response: response,
+            message: "Unexpected server response",
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      throw DioAppException.fromDioError(e);
+    } catch (e) {
+      throw UnknownException("Unexpected error: $e");
+    }
+  }
+
+  @override
+  Future<Result<CommonResponseModel>> verifyEmail(
+    VerifyEmailRequestModel request,
+  ) async {
+    final postData = request.toJson();
+    try {
+      final response = await _dioClient.dio.post(
+        ApiEndpoint.verifyEmail,
+        data: postData,
+      );
+      if (response.statusCode == 200) {
+        return Right(CommonResponseModel.fromJson(response.data));
       } else {
         throw DioAppException.fromDioError(
           DioException(

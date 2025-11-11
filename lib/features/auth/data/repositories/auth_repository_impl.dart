@@ -30,4 +30,16 @@ class AuthRepositoryImpl extends AuthRepository {
     } catch (_) {}
     await _authLocalDataSource.clearAll();
   }
+
+  @override
+  Future<Result<CommonResponseModel>> verifyEmail(
+    VerifyEmailRequestModel request,
+  ) async {
+    try {
+      final result = await _authRemoteDataSource.verifyEmail(request);
+      return result;
+    } catch (e) {
+      return Left(UnknownException("Something bad happened: $e"));
+    }
+  }
 }

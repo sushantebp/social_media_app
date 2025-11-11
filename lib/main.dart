@@ -4,6 +4,8 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:social_media_app/core/core.dart';
+import 'package:social_media_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:social_media_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:social_media_app/features/onboarding/cubit/onboarding_cubit.dart';
 
 void main() async {
@@ -13,6 +15,7 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: HydratedStorageDirectory(storage.path),
   );
+  initDependencies();
   runApp(const SocialMediaApp());
 }
 
@@ -22,7 +25,10 @@ class SocialMediaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => OnboardingCubit())],
+      providers: [
+        BlocProvider(create: (_) => OnboardingCubit()),
+        BlocProvider(create: (_) => AuthBloc(sl<AuthRepository>())),
+      ],
       child: MaterialApp.router(
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
