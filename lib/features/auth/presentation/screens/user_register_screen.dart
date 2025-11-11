@@ -8,88 +8,86 @@ class UserRegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Scaffold(
-      appBar: const MyAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(AppSize.paddingMedium),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSize.paddingMedium),
 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: AppSize.marginExtraLarge),
-
-            // Header
-            Text(
-              'Create Account ✨',
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(height: AppSize.marginSmall),
-            Text(
-              'Join and start connecting with people today.',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
-
-            const SizedBox(height: AppSize.marginExtraLarge * 1.2),
-
-            // Name field
-            const CustomTextField(
-              placeholder: "Enter your full name",
-              label: 'Full Name',
-            ),
-            const SizedBox(height: AppSize.marginMedium),
-
-            // Email field
-            const CustomTextField(
-              placeholder: "Enter your email",
-              label: 'Email',
-            ),
-            const SizedBox(height: AppSize.marginMedium),
-
-            // Password field
-            const CustomTextField(
-              placeholder: "Create a password",
-              label: 'Password',
-              isPassword: true,
-            ),
-            const SizedBox(height: AppSize.marginLarge),
-
-            // Register Button
-            SizedBox(
-              width: double.infinity,
-              child: AppButton(
-                icon: Icons.person_add_alt_1_rounded,
-                title: "Register",
-                onPressed: () =>
-                    context.router.push(UserEmailVerifyRoute(email: "")),
-              ),
-            ),
-
-            const Spacer(),
-
-            // Login redirect
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Already have an account?",
-                  style: theme.textTheme.bodyMedium,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: kToolbarHeight),
+              const SizedBox(height: AppSize.marginExtraLarge),
+              // Header
+              Text(
+                'Create Account ✨',
+                style: context.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: context.colorScheme.onSurface,
                 ),
-                AppButton(
-                  title: "Login",
-                  onPressed: () => context.pushRoute(const UserLoginRoute()),
-                  type: AppButtonType.text,
+              ),
+              const SizedBox(height: AppSize.marginSmall),
+              Text(
+                'Join and start connecting with people today.',
+                style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colorScheme.onSurfaceVariant,
                 ),
-              ],
-            ),
-          ],
+              ),
+
+              const SizedBox(height: AppSize.marginExtraLarge * 1.2),
+
+              // Name field
+              const CustomTextField(
+                placeholder: "Enter your full name",
+                label: 'Full Name',
+              ),
+              const SizedBox(height: AppSize.marginMedium),
+
+              // Email field
+              const CustomTextField(
+                placeholder: "Enter your email",
+                label: 'Email',
+              ),
+              const SizedBox(height: AppSize.marginMedium),
+
+              // Password field
+              const CustomTextField(
+                placeholder: "Create a password",
+                label: 'Password',
+                isPassword: true,
+              ),
+              const SizedBox(height: AppSize.marginLarge),
+
+              // Register Button
+              SizedBox(
+                width: double.infinity,
+                child: AppButton(
+                  icon: Icons.person_add_alt_1_rounded,
+                  title: "Register",
+                  onPressed: () =>
+                      context.router.push(UserEmailVerifyRoute(email: "")),
+                ),
+              ),
+
+              const Spacer(),
+
+              // Login redirect
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Already have an account?",
+                    style: context.textTheme.bodyMedium,
+                  ),
+                  AppButton(
+                    title: "Login",
+                    onPressed: () => context.pushRoute(const UserLoginRoute()),
+                    type: AppButtonType.text,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
