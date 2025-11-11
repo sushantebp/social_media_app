@@ -4,6 +4,7 @@ import 'package:social_media_app/core/core.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
+  await LocalStorageService().init();
   runApp(const SocialMediaApp());
 }
 
