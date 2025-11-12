@@ -1,4 +1,5 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+
 import 'package:social_media_app/core/core.dart';
 
 class OnboardingCubit extends HydratedCubit<bool> {

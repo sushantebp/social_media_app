@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fpdart/fpdart.dart';
-import 'package:social_media_app/core/constants/api_endpoint.dart';
+
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 
@@ -8,10 +7,8 @@ abstract class AuthRemoteDataSource {
   Future<UserRegisterResponseModel> registerUser(
     UserRegisterRequestModel request,
   );
-
-  Future<Result<CommonResponseModel>> verifyEmail(
-    VerifyEmailRequestModel request,
-  );
+  Future<CommonResponseModel> verifyEmail(VerifyEmailRequestModel request);
+  Future<UserRegisterResponseModel> loginUser(UserLoginRequestModel request);
 
   Future<void> logoutUser();
 }
@@ -52,7 +49,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<Result<CommonResponseModel>> verifyEmail(
+  Future<CommonResponseModel> verifyEmail(
     VerifyEmailRequestModel request,
   ) async {
     final postData = request.toJson();
@@ -62,7 +59,37 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         data: postData,
       );
       if (response.statusCode == 200) {
-        return Right(CommonResponseModel.fromJson(response.data));
+        return CommonResponseModel.fromJson(response.data);
+      } else {
+        throw DioAppException.fromDioError(
+          DioException(
+            requestOptions: response.requestOptions,
+            response: response,
+            message: "Unexpected server response",
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      throw DioAppException.fromDioError(e);
+    } catch (e) {
+      throw UnknownException("Unexpected error: $e");
+    }
+  }
+
+  @override
+  Future<UserRegisterResponseModel> loginUser(
+    UserLoginRequestModel request,
+  ) async {
+    final postData = request.toJson();
+
+    try {
+      final response = await _dioClient.dio.post(
+        ApiEndpoint.login,
+        data: postData,
+      );
+
+      if (response.statusCode == 200) {
+        return UserRegisterResponseModel.fromJson(response.data);
       } else {
         throw DioAppException.fromDioError(
           DioException(

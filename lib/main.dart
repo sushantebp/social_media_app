@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:social_media_app/core/core.dart';
-import 'package:social_media_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:social_media_app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:social_media_app/features/onboarding/cubit/onboarding_cubit.dart';
+import 'package:social_media_app/features/auth/auth.dart';
+import 'package:social_media_app/features/onboarding/onboarding.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");

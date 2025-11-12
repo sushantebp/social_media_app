@@ -23,16 +23,16 @@ class DioClient {
       try {
         final token = await SecureStorageService().read(AppConstant.tokenKey);
 
-        if (token != null || token!.isNotEmpty) {
+        if (token != null && token.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $token';
         }
+        handler.next(options);
       } on DioException catch (error) {
         final dioException = DioAppException.fromDioError(error);
         handler.reject(dioException.dioError);
       } catch (error) {
         handler.reject(DioException(requestOptions: options, error: error));
       }
-      handler.next(options);
     },
     onResponse: (response, handler) => handler.next(response),
     onError: (error, handler) async {

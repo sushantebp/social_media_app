@@ -18,6 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<PasswordChanged>(_onPasswordChanged);
     on<RegisterSubmitted>(_onRegisterSubmitted);
     on<VerifyUserEmail>(_onVerifyUserEmail);
+    on<LoginSubmitted>(_onUserLogin);
   }
 
   void _onNameChanged(NameChanged event, Emitter<AuthState> emit) =>
@@ -55,7 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
         (_) => emit(
           state.copyWith(
-            authStatus: AuthStatus.authenticated,
+            authStatus: AuthStatus.unauthenticated,
             errorMessage: "",
           ),
         ),
@@ -68,5 +69,65 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onVerifyUserEmail(
     VerifyUserEmail event,
     Emitter<AuthState> emit,
-  ) async {}
+  ) async {
+    emit(state.copyWith(authStatus: AuthStatus.loading));
+    try {
+      await Future.delayed(const Duration(seconds: 2));
+
+      final request = VerifyEmailRequestModel(
+        email: state.email,
+        verificationCode: state.verificationCode,
+      );
+
+      final result = await _authRepository.verifyEmail(request);
+      result.fold(
+        (failure) => emit(
+          state.copyWith(
+            authStatus: AuthStatus.error,
+            errorMessage: failure.message,
+          ),
+        ),
+        (_) => emit(
+          state.copyWith(
+            authStatus: AuthStatus.authenticated,
+            errorMessage: "",
+          ),
+        ),
+      );
+    } catch (e) {
+      throw UnknownException();
+    }
+  }
+
+  Future<void> _onUserLogin(
+    LoginSubmitted event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(authStatus: AuthStatus.loading));
+    try {
+      await Future.delayed(const Duration(seconds: 2));
+      final request = UserLoginRequestModel(
+        email: state.email,
+        password: state.password,
+      );
+      final result = await _authRepository.loginUser(request);
+
+      result.fold(
+        (failure) => emit(
+          state.copyWith(
+            authStatus: AuthStatus.error,
+            errorMessage: failure.message,
+          ),
+        ),
+        (_) => emit(
+          state.copyWith(
+            authStatus: AuthStatus.authenticated,
+            errorMessage: null,
+          ),
+        ),
+      );
+    } catch (e) {
+      throw UnknownException();
+    }
+  }
 }

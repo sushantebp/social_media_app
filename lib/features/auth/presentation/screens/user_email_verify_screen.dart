@@ -11,6 +11,7 @@ class UserEmailVerifyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -51,7 +52,9 @@ class UserEmailVerifyScreen extends StatelessWidget {
                   child: AppButton(
                     title: 'Verify',
                     onPressed: () {
-                      if (formKey.currentState?.validate() ?? false) {}
+                      if (formKey.currentState?.validate() ?? false) {
+                        
+                      }
                     },
                   ),
                 ),

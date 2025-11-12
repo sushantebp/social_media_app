@@ -10,5 +10,9 @@ abstract class AuthRepository {
     VerifyEmailRequestModel request,
   );
 
+  Future<Result<UserRegisterResponseModel>> loginUser(
+    UserLoginRequestModel request,
+  );
+
   Future<void> logoutUser();
 }

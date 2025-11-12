@@ -26,3 +26,7 @@ final class RegisterSubmitted extends AuthEvent {
 final class VerifyUserEmail extends AuthEvent {
   const VerifyUserEmail();
 }
+
+final class LoginSubmitted extends AuthEvent {
+  const LoginSubmitted();
+}

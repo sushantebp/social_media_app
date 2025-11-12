@@ -8,6 +8,7 @@ abstract class AuthState with _$AuthState {
     @Default('') String name,
     @Default('') String email,
     @Default('') String password,
+    @Default('') String verificationCode,
     @Default(AuthStatus.initial) AuthStatus authStatus,
     String? errorMessage,
   }) = _AuthState;
