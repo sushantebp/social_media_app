@@ -11,6 +11,7 @@ class UserRegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<AuthBloc>();
+    final router = context.router;
     final formKey = GlobalKey<FormState>();
 
     return BlocConsumer<AuthBloc, AuthState>(
@@ -18,9 +19,19 @@ class UserRegisterScreen extends StatelessWidget {
         final status = state.authStatus;
 
         if (status == AuthStatus.unauthenticated) {
-          context.router.push(UserEmailVerifyRoute(email: bloc.state.email));
+          ToastHelper.success(
+            context,
+            state.successMessage ?? "User Register successful",
+          );
+          Future.delayed(
+            const Duration(seconds: 1),
+            () => router.push(UserEmailVerifyRoute(email: bloc.state.email)),
+          );
         } else if (status == AuthStatus.error) {
-          // snackbar to display error
+          ToastHelper.error(
+            context,
+            state.errorMessage ?? "Register failed. Please try again.",
+          );
         }
       },
       builder: (context, state) {

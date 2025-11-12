@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
@@ -18,23 +19,23 @@ class DashboardScreen extends StatelessWidget {
 
   final List<NavigationDestination> _destinations = const [
     NavigationDestination(
-      selectedIcon: Icon(Icons.article),
-      icon: Icon(Icons.article_outlined),
+      selectedIcon: FaIcon(FontAwesomeIcons.solidNewspaper),
+      icon: FaIcon(FontAwesomeIcons.newspaper),
       label: '',
     ),
     NavigationDestination(
-      selectedIcon: Icon(Icons.chat),
-      icon: Icon(Icons.chat_outlined),
+      selectedIcon: FaIcon(FontAwesomeIcons.solidCommentDots),
+      icon: FaIcon(FontAwesomeIcons.commentDots),
       label: '',
     ),
     NavigationDestination(
-      selectedIcon: Icon(Icons.notifications),
-      icon: Icon(Icons.notifications_outlined),
+      selectedIcon: FaIcon(FontAwesomeIcons.solidBell),
+      icon: FaIcon(FontAwesomeIcons.bell),
       label: '',
     ),
     NavigationDestination(
-      selectedIcon: Icon(Icons.person),
-      icon: Icon(Icons.person_outline),
+      selectedIcon: FaIcon(FontAwesomeIcons.solidUser),
+      icon: FaIcon(FontAwesomeIcons.user),
       label: '',
     ),
   ];
@@ -48,7 +49,7 @@ class DashboardScreen extends StatelessWidget {
           bottomNavigationBuilder: (context, tabsRouter) {
             return AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              height: isVisible ? kBottomNavigationBarHeight * 1.25 : 0,
+              height: isVisible ? kBottomNavigationBarHeight * 1.3 : 0,
               child: Wrap(
                 children: [
                   NavigationBar(

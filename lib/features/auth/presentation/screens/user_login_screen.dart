@@ -17,10 +17,20 @@ class UserLoginScreen extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         final status = state.authStatus;
+
         if (status == AuthStatus.authenticated) {
-          // navigate to main screen
+          ToastHelper.success(
+            context,
+            state.successMessage ?? "Login successful",
+          );
+          Future.delayed(const Duration(seconds: 1), () {
+            router.replace(const DashboardRoute());
+          });
         } else if (status == AuthStatus.error) {
-          // snackbar display of errors
+          ToastHelper.error(
+            context,
+            state.errorMessage ?? "Login failed. Please try again.",
+          );
         }
       },
       builder: (context, state) {
@@ -53,8 +63,7 @@ class UserLoginScreen extends StatelessWidget {
                     CustomTextField(
                       placeholder: "Enter your email",
                       label: 'Email',
-                      onFieldSubmitted: (value) =>
-                          bloc.add(EmailChanged(value)),
+                      onChanged: (value) => bloc.add(EmailChanged(value)),
                       validator: (value) {
                         if (value?.isEmpty ?? false) {
                           return "Email is required";
@@ -70,8 +79,7 @@ class UserLoginScreen extends StatelessWidget {
                       placeholder: "Enter your password",
                       label: 'Password',
                       isPassword: true,
-                      onFieldSubmitted: (value) =>
-                          bloc.add(PasswordChanged(value)),
+                      onChanged: (value) => bloc.add(PasswordChanged(value)),
                       validator: (value) {
                         if (value?.isEmpty ?? false) {
                           return "Password is required";

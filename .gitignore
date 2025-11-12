@@ -49,6 +49,7 @@ app.*.map.json
 *.g.dart
 *.gr.dart
 
+bloc_observer.dart
 
 # FVM Version Cache
 .fvm/

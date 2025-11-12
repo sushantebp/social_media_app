@@ -27,7 +27,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: bgColor ?? Theme.of(context).colorScheme.surface,
+      backgroundColor: bgColor,
       title: title != null ? Text(title!) : null,
       centerTitle: centerTitle,
       actions: actions,
@@ -36,7 +36,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? (leading ??
                 IconButton(
                   onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back_sharp),
                 ))
           : null,
     );

@@ -11,6 +11,7 @@ abstract class AuthState with _$AuthState {
     @Default('') String verificationCode,
     @Default(AuthStatus.initial) AuthStatus authStatus,
     String? errorMessage,
+    String? successMessage,
   }) = _AuthState;
 
   factory AuthState.fromJson(Map<String, dynamic> json) =>

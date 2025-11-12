@@ -12,11 +12,6 @@ class AuthRepositoryImpl extends AuthRepository {
   ) async {
     try {
       final response = await _authRemoteDataSource.registerUser(request);
-
-      await _authLocalDataSource.saveToken(response.data.token);
-
-      await _authLocalDataSource.saveUserInfo(response.data.user);
-
       return Right(response);
     } catch (e) {
       return Left(UnknownException("Something bad happens : $e"));

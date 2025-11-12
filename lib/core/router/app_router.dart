@@ -23,8 +23,8 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    // showoff
-    AutoRoute(initial: false, page: SplashRoute.page),
+    // showoff,inital screen
+    AutoRoute(initial: true, page: SplashRoute.page),
     AutoRoute(page: OnboardingRoute.page),
     // auth-related
     AutoRoute(page: UserRegisterRoute.page),
@@ -34,7 +34,6 @@ class AppRouter extends RootStackRouter {
     // screen related to bottom-nav-bar (dashboard)
     AutoRoute(
       page: DashboardRoute.page,
-      initial: true,
       children: [
         AutoRoute(
           page: PostShellRoute.page,

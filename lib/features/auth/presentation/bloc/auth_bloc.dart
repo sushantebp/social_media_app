@@ -76,7 +76,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       final request = VerifyEmailRequestModel(
         email: state.email,
-        verificationCode: state.verificationCode,
+        // verificationCode: state.verificationCode,
+        // static default value is used here,since it is still being maintained
+        verificationCode: "123456",
       );
 
       final result = await _authRepository.verifyEmail(request);
@@ -104,12 +106,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(authStatus: AuthStatus.loading));
+
     try {
       await Future.delayed(const Duration(seconds: 2));
+
       final request = UserLoginRequestModel(
         email: state.email,
         password: state.password,
       );
+
       final result = await _authRepository.loginUser(request);
 
       result.fold(
@@ -119,10 +124,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             errorMessage: failure.message,
           ),
         ),
-        (_) => emit(
+        (response) => emit(
           state.copyWith(
             authStatus: AuthStatus.authenticated,
             errorMessage: null,
+            successMessage: response.message,
           ),
         ),
       );

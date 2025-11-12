@@ -7,7 +7,7 @@ part 'user_register_response_model.g.dart';
 @freezed
 abstract class UserRegisterResponseModel with _$UserRegisterResponseModel {
   const factory UserRegisterResponseModel({
-    required String status,
+    required String message,
     required UserRegisterData data,
   }) = _UserRegisterResponseModel;
 
@@ -22,8 +22,13 @@ abstract class UserRegisterData with _$UserRegisterData {
     required UserModel user,
   }) = _UserRegisterData;
 
-  factory UserRegisterData.fromJson(Map<String, dynamic> json) =>
-      _$UserRegisterDataFromJson(json);
+  factory UserRegisterData.fromJson(
+    Map<String, dynamic> json,
+  ) => _$UserRegisterDataFromJson({
+    // flatten API response fields into nested structure
+    "token": json["token"],
+    "user": {"id": json["id"], "name": json["name"], "email": json["email"]},
+  });
 }
 
 @freezed

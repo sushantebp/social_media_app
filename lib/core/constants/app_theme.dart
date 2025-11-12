@@ -91,8 +91,8 @@ class AppTheme {
       ),
     ),
     appBarTheme: AppBarTheme(
-      backgroundColor: ColorScheme.fromSeed(seedColor: seedColor).primary,
-      foregroundColor: Colors.white,
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
       titleTextStyle: TextStyle(
         fontFamily: AppConstant.poppinsFont,
         fontWeight: FontWeight.w700,
@@ -199,10 +199,7 @@ class AppTheme {
       ),
     ),
     appBarTheme: AppBarTheme(
-      backgroundColor: ColorScheme.fromSeed(
-        seedColor: seedColor,
-        brightness: Brightness.dark,
-      ).primary,
+      backgroundColor: Colors.black,
       foregroundColor: Colors.white,
       titleTextStyle: TextStyle(
         fontFamily: AppConstant.poppinsFont,
