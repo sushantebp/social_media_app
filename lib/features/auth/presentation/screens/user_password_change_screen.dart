@@ -9,6 +9,7 @@ class UserPasswordChangeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
