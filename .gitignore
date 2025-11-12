@@ -45,4 +45,9 @@ app.*.map.json
 /android/app/release
 
 .env
-*.gr.dart
+*gr.dart
+*freezed.dart
+*g.dart
+
+# FVM Version Cache
+.fvm/

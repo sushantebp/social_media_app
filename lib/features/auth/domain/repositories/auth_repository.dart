@@ -1,0 +1,18 @@
+import 'package:social_media_app/core/core.dart';
+import 'package:social_media_app/features/auth/auth.dart';
+
+abstract class AuthRepository {
+  Future<Result<UserRegisterResponseModel>> registerUser(
+    UserRegisterRequestModel request,
+  );
+
+  Future<Result<CommonResponseModel>> verifyEmail(
+    VerifyEmailRequestModel request,
+  );
+
+  Future<Result<UserRegisterResponseModel>> loginUser(
+    UserLoginRequestModel request,
+  );
+
+  Future<void> logoutUser();
+}

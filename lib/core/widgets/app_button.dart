@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum AppButtonType { primary, secondary, outlined, icon }
+enum AppButtonType { primary, secondary, outlined, icon, text }
 
 class AppButton extends StatelessWidget {
   final String? title;
@@ -61,8 +61,39 @@ class AppButton extends StatelessWidget {
         backgroundColor = Colors.transparent;
         foregroundColor = colorScheme.primary;
         break;
+      case AppButtonType.text:
+        backgroundColor = Colors.transparent;
+        foregroundColor = colorScheme.primary;
+        break;
     }
 
+    // Use TextButton for text type (no background)
+    if (type == AppButtonType.text) {
+      return TextButton(
+        onPressed: isLoading ? null : onPressed,
+        style: TextButton.styleFrom(
+          foregroundColor: foregroundColor,
+          padding:
+              padding ??
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          textStyle:
+              textStyle ??
+              const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+        ),
+        child: isLoading
+            ? SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                  color: backgroundColor,
+                  strokeWidth: 2,
+                ),
+              )
+            : _buildChild(foregroundColor),
+      );
+    }
+
+    // Default ElevatedButton for other types
     return SizedBox(
       width: width,
       height: height,

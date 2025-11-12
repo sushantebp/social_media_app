@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/splash/splash.dart';
+import 'package:social_media_app/features/onboarding/onboarding.dart';
 
 part 'app_router.gr.dart';
 
@@ -19,5 +22,11 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(initial: true, page: SplashRoute.page),
+    AutoRoute(initial: false, page: OnboardingRoute.page),
+    // auth-related
+    AutoRoute(page: UserRegisterRoute.page),
+    AutoRoute(page: UserLoginRoute.page),
+    AutoRoute(page: UserEmailVerifyRoute.page),
+    AutoRoute(page: UserPasswordChangeRoute.page),
   ];
 }

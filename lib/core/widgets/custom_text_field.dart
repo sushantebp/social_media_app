@@ -95,7 +95,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   obscureText
                       ? Icons.visibility_off_outlined
                       : Icons.visibility_outlined,
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
                 onPressed: () => _obscureTextNotifier.value = !obscureText,
               );
@@ -109,7 +109,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 return IconButton(
                   icon: Icon(
                     Icons.clear,
-                    color: theme.colorScheme.onSurface.withOpacity(0.6),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
                   onPressed: () {
                     _effectiveController.clear();
@@ -143,9 +143,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
             hintText: widget.placeholder,
             prefixIcon: widget.prefix,
             suffixIcon: suffixWidget,
-            border: buildBorder(theme.colorScheme.onSurface.withOpacity(0.3)),
+            border: buildBorder(
+              theme.colorScheme.onSurface.withValues(alpha: 0.3),
+            ),
             enabledBorder: buildBorder(
-              theme.colorScheme.onSurface.withOpacity(0.3),
+              theme.colorScheme.onSurface.withValues(alpha: 0.3),
             ),
             focusedBorder: buildBorder(theme.colorScheme.primary),
             errorBorder: buildBorder(theme.colorScheme.error),
