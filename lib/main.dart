@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
+import 'package:social_media_app/features/dashboard/cubit/bottom_bar_cubit.dart';
 import 'package:social_media_app/features/onboarding/onboarding.dart';
 
 void main() async {
@@ -28,6 +29,7 @@ class SocialMediaApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => OnboardingCubit()),
         BlocProvider(create: (_) => AuthBloc(sl<AuthRepository>())),
+        BlocProvider(create: (_) => BottomBarCubit()),
       ],
       child: MaterialApp.router(
         theme: AppTheme.lightTheme,
