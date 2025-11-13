@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/onboarding/cubit/onboarding_cubit.dart';
+import 'package:social_media_app/features/splash/cubit/splash_cubit.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -33,17 +34,28 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _controller.forward();
+    _navigateScreen();
+  }
 
-    Timer(const Duration(seconds: 2), () {
-      if (!mounted) return;
+  Future<void> _navigateScreen() async {
+    final onboardingCubit = context.read<OnboardingCubit>();
+    final splashCubit = context.read<SplashCubit>();
 
-      final onboardingCubit = context.read<OnboardingCubit>();
+    final isAuth = await splashCubit.isAuthenticated();
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    if (isAuth) {
+      context.router.replace(const DashboardRoute());
+    } else {
       if (onboardingCubit.state) {
         context.router.replace(const UserLoginRoute());
       } else {
         context.router.replace(const OnboardingRoute());
       }
-    });
+    }
   }
 
   @override

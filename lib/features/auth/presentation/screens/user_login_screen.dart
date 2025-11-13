@@ -15,6 +15,9 @@ class UserLoginScreen extends StatelessWidget {
     final bloc = context.read<AuthBloc>();
 
     return BlocConsumer<AuthBloc, AuthState>(
+      listenWhen: (previous, current) =>
+          previous.authStatus != current.authStatus,
+
       listener: (context, state) {
         final status = state.authStatus;
 

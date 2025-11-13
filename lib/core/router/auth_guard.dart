@@ -1,5 +1,4 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:social_media_app/core/core.dart';
+part of 'app_router.dart';
 
 class AuthGuard extends AutoRouteGuard {
   @override

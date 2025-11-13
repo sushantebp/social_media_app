@@ -17,8 +17,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<RegisterSubmitted>(_onRegisterSubmitted);
+    on<CodeChanged>(_onCodeChanged);
     on<VerifyUserEmail>(_onVerifyUserEmail);
     on<LoginSubmitted>(_onUserLogin);
+    on<LogoutSubmitted>(_onLogout);
   }
 
   void _onNameChanged(NameChanged event, Emitter<AuthState> emit) =>
@@ -30,6 +32,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onPasswordChanged(PasswordChanged event, Emitter<AuthState> emit) =>
       emit(state.copyWith(password: event.password));
 
+  void _onCodeChanged(CodeChanged event, Emitter<AuthState> emit) =>
+      emit(state.copyWith(verificationCode: event.verificationCode));
+
   Future<void> _onRegisterSubmitted(
     RegisterSubmitted event,
     Emitter<AuthState> emit,
@@ -39,7 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       await Future.delayed(const Duration(seconds: 2));
 
-      final registerRequest = UserRegisterRequestModel(
+      final registerRequest = UserAuthRequestModel(
         name: state.name,
         email: state.email,
         password: state.password,
@@ -54,10 +59,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             errorMessage: failure.message,
           ),
         ),
-        (_) => emit(
+        (response) => emit(
           state.copyWith(
             authStatus: AuthStatus.unauthenticated,
             errorMessage: "",
+            successMessage: response.message,
           ),
         ),
       );
@@ -89,10 +95,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             errorMessage: failure.message,
           ),
         ),
-        (_) => emit(
+        (message) => emit(
           state.copyWith(
             authStatus: AuthStatus.authenticated,
             errorMessage: "",
+            successMessage: message,
           ),
         ),
       );
@@ -110,7 +117,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       await Future.delayed(const Duration(seconds: 2));
 
-      final request = UserLoginRequestModel(
+      final request = UserAuthRequestModel(
         email: state.email,
         password: state.password,
       );
@@ -136,4 +143,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       throw UnknownException();
     }
   }
+
+  Future<void> _onLogout(
+    LogoutSubmitted event,
+    Emitter<AuthState> emit,
+  ) async => await _authRepository.logoutUser();
 }

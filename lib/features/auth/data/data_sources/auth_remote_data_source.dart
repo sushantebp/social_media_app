@@ -4,11 +4,9 @@ import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserRegisterResponseModel> registerUser(
-    UserRegisterRequestModel request,
-  );
-  Future<CommonResponseModel> verifyEmail(VerifyEmailRequestModel request);
-  Future<UserRegisterResponseModel> loginUser(UserLoginRequestModel request);
+  Future<UserAuthResponseModel> registerUser(UserAuthRequestModel request);
+  Future<String> verifyEmail(VerifyEmailRequestModel request);
+  Future<UserAuthResponseModel> loginUser(UserAuthRequestModel request);
 
   Future<void> logoutUser();
 }
@@ -18,8 +16,8 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this._dioClient);
 
   @override
-  Future<UserRegisterResponseModel> registerUser(
-    UserRegisterRequestModel request,
+  Future<UserAuthResponseModel> registerUser(
+    UserAuthRequestModel request,
   ) async {
     final postData = request.toJson();
     try {
@@ -28,9 +26,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         data: postData,
       );
       if (response.statusCode == 201 || response.statusCode == 200) {
-        final responseDataModel = UserRegisterResponseModel.fromJson(
-          response.data,
-        );
+        final responseDataModel = UserAuthResponseModel.fromJson(response.data);
         return responseDataModel;
       } else {
         throw DioAppException.fromDioError(
@@ -49,9 +45,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<CommonResponseModel> verifyEmail(
-    VerifyEmailRequestModel request,
-  ) async {
+  Future<String> verifyEmail(VerifyEmailRequestModel request) async {
     final postData = request.toJson();
     try {
       final response = await _dioClient.dio.post(
@@ -59,7 +53,8 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         data: postData,
       );
       if (response.statusCode == 200) {
-        return CommonResponseModel.fromJson(response.data);
+        final String message = response.data['message'] as String;
+        return message;
       } else {
         throw DioAppException.fromDioError(
           DioException(
@@ -77,9 +72,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<UserRegisterResponseModel> loginUser(
-    UserLoginRequestModel request,
-  ) async {
+  Future<UserAuthResponseModel> loginUser(UserAuthRequestModel request) async {
     final postData = request.toJson();
 
     try {
@@ -89,7 +82,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return UserRegisterResponseModel.fromJson(response.data);
+        return UserAuthResponseModel.fromJson(response.data);
       } else {
         throw DioAppException.fromDioError(
           DioException(

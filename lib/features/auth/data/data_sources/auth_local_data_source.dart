@@ -6,7 +6,7 @@ abstract class AuthLocalDataSource {
   Future<String?> getToken();
   Future<void> clearToken();
 
-  Future<void> saveUserInfo(UserModel userInfo);
+  Future<void> saveUserInfo(UserAuthData userInfo);
   Future<void> clearAll();
 }
 
@@ -31,7 +31,7 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
       _secureStorageService.delete(AppConstant.tokenKey);
 
   @override
-  Future<void> saveUserInfo(UserModel userInfo) async =>
+  Future<void> saveUserInfo(UserAuthData userInfo) async =>
       await _localStorageService.saveUserInfo(userInfo);
 
   @override

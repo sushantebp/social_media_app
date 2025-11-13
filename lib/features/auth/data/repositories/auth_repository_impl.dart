@@ -7,8 +7,8 @@ class AuthRepositoryImpl extends AuthRepository {
   final AuthLocalDataSource _authLocalDataSource;
   AuthRepositoryImpl(this._authRemoteDataSource, this._authLocalDataSource);
   @override
-  Future<Result<UserRegisterResponseModel>> registerUser(
-    UserRegisterRequestModel request,
+  Future<Result<UserAuthResponseModel>> registerUser(
+    UserAuthRequestModel request,
   ) async {
     try {
       final response = await _authRemoteDataSource.registerUser(request);
@@ -19,9 +19,7 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Result<CommonResponseModel>> verifyEmail(
-    VerifyEmailRequestModel request,
-  ) async {
+  Future<Result<String>> verifyEmail(VerifyEmailRequestModel request) async {
     try {
       final response = await _authRemoteDataSource.verifyEmail(request);
       return Right(response);
@@ -31,15 +29,15 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Result<UserRegisterResponseModel>> loginUser(
-    UserLoginRequestModel request,
+  Future<Result<UserAuthResponseModel>> loginUser(
+    UserAuthRequestModel request,
   ) async {
     try {
       final response = await _authRemoteDataSource.loginUser(request);
 
-      await _authLocalDataSource.saveToken(response.data.token);
+      await _authLocalDataSource.saveToken(response.data.token ?? "");
 
-      await _authLocalDataSource.saveUserInfo(response.data.user);
+      await _authLocalDataSource.saveUserInfo(response.data);
 
       return Right(response);
     } catch (e) {
