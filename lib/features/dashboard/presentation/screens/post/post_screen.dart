@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_media_app/core/constants/app_size.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
@@ -23,22 +23,16 @@ class PostScreen extends StatelessWidget {
         return false;
       },
       child: Scaffold(
+        appBar: const MyAppBar(),
+        floatingActionButton: FloatingActionButton(
+          child: const FaIcon(FontAwesomeIcons.feather),
+          onPressed: () => context.router.push(const CreateNewPostRoute()),
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSize.paddingMedium,
           ),
-          child: ListView.builder(
-            itemCount: 20,
-            itemBuilder: (context, index) {
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                child: ListTile(
-                  title: Text('Post $index'),
-                  subtitle: Text('This is a sample post description.'),
-                ),
-              );
-            },
-          ),
+          child: Column(children: []),
         ),
       ),
     );

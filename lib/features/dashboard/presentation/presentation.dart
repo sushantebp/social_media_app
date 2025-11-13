@@ -7,4 +7,5 @@ export 'screens/post/post_screen.dart';
 export './screens/post/post_shell_screen.dart';
 export 'screens/profile/profile_screen.dart';
 export './screens/profile/profile_shell_screen.dart';
-export '../cubit/bottom_bar_cubit.dart';
+export 'cubit/bottom_bar_cubit.dart';
+export './screens/post/create_new_post_screen.dart';

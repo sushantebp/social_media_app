@@ -59,5 +59,8 @@ class AppRouter extends RootStackRouter {
         ),
       ],
     ),
+
+    // screen assopciatge with post(dashboard)
+    AutoRoute(page: CreateNewPostRoute.page, guards: [_authGuard]),
   ];
 }
