@@ -5,15 +5,23 @@ enum AppButtonType { primary, secondary, outlined, icon, text }
 class AppButton extends StatelessWidget {
   final String? title;
   final IconData? icon;
+
   final VoidCallback? onPressed;
+
   final bool isLoading;
+
   final AppButtonType type;
+
   final double? width;
   final double? height;
   final EdgeInsetsGeometry? padding;
   final TextStyle? textStyle;
+
   final double borderRadius;
   final double? elevation;
+
+  final Color? bgColor;
+  final Color? fgColor;
 
   const AppButton({
     super.key,
@@ -28,6 +36,8 @@ class AppButton extends StatelessWidget {
     this.textStyle,
     this.borderRadius = 12,
     this.elevation,
+    this.bgColor,
+    this.fgColor,
   }) : assert(
          title != null || icon != null,
          'Either title or icon must be provided',
@@ -38,36 +48,34 @@ class AppButton extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    // Determine button colors based on type
-    Color backgroundColor;
-    Color foregroundColor;
-    BorderSide? border;
+    // Determine background color, use bgColor if provided
+    Color backgroundColor =
+        bgColor ??
+        switch (type) {
+          AppButtonType.primary => colorScheme.primary,
+          AppButtonType.secondary => colorScheme.secondary,
+          AppButtonType.outlined => Colors.transparent,
+          AppButtonType.icon => Colors.transparent,
+          AppButtonType.text => Colors.transparent,
+        };
 
-    switch (type) {
-      case AppButtonType.primary:
-        backgroundColor = colorScheme.primary;
-        foregroundColor = colorScheme.onPrimary;
-        break;
-      case AppButtonType.secondary:
-        backgroundColor = colorScheme.secondary;
-        foregroundColor = colorScheme.onSecondary;
-        break;
-      case AppButtonType.outlined:
-        backgroundColor = Colors.transparent;
-        foregroundColor = colorScheme.primary;
-        border = BorderSide(color: colorScheme.primary, width: 2);
-        break;
-      case AppButtonType.icon:
-        backgroundColor = Colors.transparent;
-        foregroundColor = colorScheme.primary;
-        break;
-      case AppButtonType.text:
-        backgroundColor = Colors.transparent;
-        foregroundColor = colorScheme.primary;
-        break;
-    }
+    // Determine foreground (text/icon) color, use fgColor if provided
+    Color foregroundColor =
+        fgColor ??
+        switch (type) {
+          AppButtonType.primary => colorScheme.onPrimary,
+          AppButtonType.secondary => colorScheme.onSecondary,
+          AppButtonType.outlined => colorScheme.primary,
+          AppButtonType.icon => colorScheme.primary,
+          AppButtonType.text => colorScheme.primary,
+        };
 
-    // Use TextButton for text type (no background)
+    // Border for outlined type
+    BorderSide? border = type == AppButtonType.outlined
+        ? BorderSide(color: colorScheme.primary, width: 2)
+        : null;
+
+    // Use TextButton for text type
     if (type == AppButtonType.text) {
       return TextButton(
         onPressed: isLoading ? null : onPressed,
@@ -85,7 +93,7 @@ class AppButton extends StatelessWidget {
                 width: 18,
                 height: 18,
                 child: CircularProgressIndicator(
-                  color: backgroundColor,
+                  color: foregroundColor,
                   strokeWidth: 2,
                 ),
               )
@@ -93,7 +101,7 @@ class AppButton extends StatelessWidget {
       );
     }
 
-    // Default ElevatedButton for other types
+    // ElevatedButton for other types
     return SizedBox(
       width: width,
       height: height,
@@ -109,17 +117,22 @@ class AppButton extends StatelessWidget {
             side: border ?? BorderSide.none,
           ),
         ),
+        // Show loading indicator or button content
         child: isLoading
             ? SizedBox(
                 width: 24,
                 height: 24,
-                child: CircularProgressIndicator(strokeWidth: 2.5),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: foregroundColor,
+                ),
               )
             : _buildChild(foregroundColor),
       ),
     );
   }
 
+  // Build child widget: text, icon, or both
   Widget _buildChild(Color fgColor) {
     final style =
         textStyle ?? TextStyle(fontWeight: FontWeight.w600, color: fgColor);

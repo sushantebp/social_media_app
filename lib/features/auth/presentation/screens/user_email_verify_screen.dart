@@ -19,16 +19,19 @@ class UserEmailVerifyScreen extends StatelessWidget {
     final bloc = context.read<AuthBloc>();
 
     return BlocConsumer<AuthBloc, AuthState>(
+      listenWhen: (previous, current) =>
+          previous.authStatus != current.authStatus,
+
       listener: (context, state) {
         final status = state.authStatus;
-        if (status == AuthStatus.unauthenticated) {
+        if (status == AuthStatus.authenticated) {
           ToastHelper.success(
             context,
             state.successMessage ?? "Email verified successful",
           );
 
           Future.delayed(
-            const Duration(seconds: 1),
+            const Duration(milliseconds: 1242),
             () => router.replace(const UserLoginRoute()),
           );
         } else if (status == AuthStatus.error) {
@@ -67,6 +70,7 @@ class UserEmailVerifyScreen extends StatelessWidget {
                       placeholder: 'Enter verification code',
                       label: 'Verification Code',
                       keyboardType: TextInputType.number,
+                      onChanged: (value) => bloc.add(CodeChanged(value)),
                       validator: (value) {
                         if (value?.isEmpty ?? false) {
                           return "Code is required";
@@ -79,6 +83,7 @@ class UserEmailVerifyScreen extends StatelessWidget {
                       width: double.infinity,
                       child: AppButton(
                         title: 'Verify',
+                        isLoading: state.authStatus == AuthStatus.loading,
                         onPressed: () {
                           if (formKey.currentState?.validate() ?? false) {
                             bloc.add(const VerifyUserEmail());

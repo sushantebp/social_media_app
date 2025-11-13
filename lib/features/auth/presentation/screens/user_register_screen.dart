@@ -15,6 +15,9 @@ class UserRegisterScreen extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
 
     return BlocConsumer<AuthBloc, AuthState>(
+      listenWhen: (previous, current) =>
+          previous.authStatus != current.authStatus,
+
       listener: (context, state) {
         final status = state.authStatus;
 
@@ -54,9 +57,7 @@ class UserRegisterScreen extends StatelessWidget {
                     const SizedBox(height: AppSize.marginSmall),
                     Text(
                       'Join and start connecting with people today.',
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.colorScheme.onSurfaceVariant,
-                      ),
+                      style: context.textTheme.bodyMedium,
                     ),
 
                     const SizedBox(height: AppSize.marginExtraLarge * 1.2),
@@ -64,7 +65,7 @@ class UserRegisterScreen extends StatelessWidget {
                     // Name field
                     CustomTextField(
                       placeholder: "Enter your full name",
-                      label: 'Full Name',
+                      label: 'Username',
                       onChanged: (value) => bloc.add(NameChanged(value)),
                       validator: (value) {
                         if (value?.isEmpty ?? false) {
@@ -102,6 +103,9 @@ class UserRegisterScreen extends StatelessWidget {
                         if (value?.isEmpty ?? false) {
                           return "Password is required";
                         }
+                        if (!AppRegex.passwordRegex.hasMatch(value!)) {
+                          return 'Use 8+ chars with uppercase, lowercase, number & symbol';
+                        }
                         return null;
                       },
                     ),
@@ -117,7 +121,6 @@ class UserRegisterScreen extends StatelessWidget {
                         onPressed: () {
                           if (formKey.currentState?.validate() ?? false) {
                             bloc.add(const RegisterSubmitted());
-                            // fokir44793@chaineor.com
                           }
                         },
                       ),

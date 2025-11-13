@@ -8,6 +8,7 @@ import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 import 'package:social_media_app/features/onboarding/onboarding.dart';
+import 'package:social_media_app/features/splash/cubit/splash_cubit.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -28,6 +29,7 @@ class SocialMediaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => SplashCubit()),
         BlocProvider(create: (_) => OnboardingCubit()),
         BlocProvider(create: (_) => AuthBloc(sl<AuthRepository>())),
         BlocProvider(create: (_) => BottomBarCubit()),

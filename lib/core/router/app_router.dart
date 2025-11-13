@@ -1,15 +1,20 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+
+import 'package:auto_route/auto_route.dart';
 
 import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 import 'package:social_media_app/features/splash/splash.dart';
 import 'package:social_media_app/features/onboarding/onboarding.dart';
 
+import 'package:social_media_app/core/core.dart';
+
 part 'app_router.gr.dart';
+part 'auth_guard.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends RootStackRouter {
+  final _authGuard = AuthGuard();
   AppRouter._internal();
 
   static final AppRouter _instance = AppRouter._internal();
@@ -34,6 +39,7 @@ class AppRouter extends RootStackRouter {
     // screen related to bottom-nav-bar (dashboard)
     AutoRoute(
       page: DashboardRoute.page,
+      guards: [_authGuard],
       children: [
         AutoRoute(
           page: PostShellRoute.page,

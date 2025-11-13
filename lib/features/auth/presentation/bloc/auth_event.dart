@@ -23,10 +23,19 @@ final class RegisterSubmitted extends AuthEvent {
   const RegisterSubmitted();
 }
 
+final class CodeChanged extends AuthEvent {
+  final String verificationCode;
+  const CodeChanged(this.verificationCode);
+}
+
 final class VerifyUserEmail extends AuthEvent {
   const VerifyUserEmail();
 }
 
 final class LoginSubmitted extends AuthEvent {
   const LoginSubmitted();
+}
+
+final class LogoutSubmitted extends AuthEvent {
+  const LogoutSubmitted();
 }

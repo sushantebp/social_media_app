@@ -9,4 +9,6 @@ class AppConstant {
   static const String userInfoKey = "user-key";
   // onboarding related
   static const String completed = "completed";
+
+  static const String message = 'message';
 }
