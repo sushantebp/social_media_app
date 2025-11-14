@@ -96,5 +96,5 @@ class DioAppException extends AppException {
   }
 
   @override
-  String toString() => 'DioAppException: $message (status code: $statusCode)';
+  String toString() => '$message';
 }
