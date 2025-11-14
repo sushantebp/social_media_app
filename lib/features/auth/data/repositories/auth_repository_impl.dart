@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
@@ -13,8 +14,10 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       final response = await _authRemoteDataSource.registerUser(request);
       return Right(response);
+    } on DioException catch (e) {
+      throw DioAppException.fromDioError(e);
     } catch (e) {
-      return Left(UnknownException("Something bad happens : $e"));
+      return Left(UnknownException("$e"));
     }
   }
 
@@ -23,8 +26,10 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       final response = await _authRemoteDataSource.verifyEmail(request);
       return Right(response);
+    } on DioException catch (e) {
+      throw DioAppException.fromDioError(e);
     } catch (e) {
-      return Left(UnknownException("Something bad happened: $e"));
+      return Left(UnknownException("$e"));
     }
   }
 
@@ -40,8 +45,10 @@ class AuthRepositoryImpl extends AuthRepository {
       await _authLocalDataSource.saveUserInfo(response.data);
 
       return Right(response);
+    } on DioException catch (e) {
+      throw DioAppException.fromDioError(e);
     } catch (e) {
-      return Left(UnknownException("Something bad happens : $e"));
+      return Left(UnknownException("$e"));
     }
   }
 

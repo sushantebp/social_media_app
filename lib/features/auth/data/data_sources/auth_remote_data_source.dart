@@ -40,7 +40,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     } on DioException catch (e) {
       throw DioAppException.fromDioError(e);
     } catch (e) {
-      throw UnknownException("Unexpected error: $e");
+      throw UnknownException("$e");
     }
   }
 
@@ -67,7 +67,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     } on DioException catch (e) {
       throw DioAppException.fromDioError(e);
     } catch (e) {
-      throw UnknownException("Unexpected error: $e");
+      throw UnknownException("$e");
     }
   }
 
@@ -95,7 +95,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     } on DioException catch (e) {
       throw DioAppException.fromDioError(e);
     } catch (e) {
-      throw UnknownException("Unexpected error: $e");
+      throw UnknownException("$e");
     }
   }
 
@@ -106,7 +106,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     } on DioException catch (e) {
       throw DioAppException.fromDioError(e);
     } catch (e) {
-      throw UnknownException("Unexpected error: $e");
+      throw UnknownException("$e");
     }
   }
 }
