@@ -7,4 +7,15 @@ class ApiEndpoint {
   static const String logout = "/auth/logout";
 
   static const String createPost = "/posts/uploadpost";
+  static const String getPost = "/user/profile";
+
+  static const String updateHobbie = "/user/hobbies";
+  static const String updateAcademicQ = "/user/academic-qualification";
+  static const String updateDOB = '/user/date-of-birth';
+  static const String updateLocation = "/user/location";
+
+  static const String getFollower = "/user/followers";
+  static const String getFollwing = "/user/following";
+  static const String followUser = "/user/follow";
+  static const String unfollowUser = '/user/unfollow';
 }
