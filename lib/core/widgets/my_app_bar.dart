@@ -28,7 +28,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: bgColor,
-      title: title != null ? Text(title!) : null,
+      title: title != null
+          ? Text(title!, style: Theme.of(context).textTheme.headlineSmall)
+          : null,
       centerTitle: centerTitle,
       actions: actions,
       automaticallyImplyLeading: allowBack,

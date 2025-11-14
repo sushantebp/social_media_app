@@ -55,7 +55,10 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
           page: ProfileShellRoute.page,
-          children: [AutoRoute(page: ProfileRoute.page)],
+          children: [
+            AutoRoute(page: ProfileRoute.page),
+            AutoRoute(page: EditProfileRoute.page),
+          ],
         ),
       ],
     ),

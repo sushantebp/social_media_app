@@ -7,7 +7,7 @@ class ApiEndpoint {
   static const String logout = "/auth/logout";
 
   static const String createPost = "/posts/uploadpost";
-  static const String getPost = "/user/profile";
+  static const String getUserProfile = "/user/profile";
 
   static const String updateHobbie = "/user/hobbies";
   static const String updateAcademicQ = "/user/academic-qualification";
