@@ -6,3 +6,10 @@ export './models/profile/academic_response_model.dart';
 export './models/profile/update_dob_response.dart';
 export './models/profile/location_request_model.dart';
 export './models/profile/get_followers_response_model.dart';
+export './data_sources/profile_local_data_source.dart';
+export './data_sources/profile_remote_data_source.dart';
+
+export './repository/profile_repository_impl.dart';
+export './models/profile/local_user_details_model.dart';
+
+export './models/profile/success_response.dart';

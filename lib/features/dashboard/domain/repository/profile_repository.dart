@@ -22,5 +22,6 @@ abstract class ProfileRepository {
   // related to follower and following stuff
   Future<Result<GetFollowersResponseModel>> getFollowers();
   Future<Result<GetFollowersResponseModel>> getFollowing();
-  // still needed for follow user and unfollow user
+  Future<Result<SuccessResponse>> followUser(String followUserId);
+  Future<Result<SuccessResponse>> unFollowUser(String unfollowUserId);
 }

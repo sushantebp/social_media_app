@@ -82,9 +82,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       final request = VerifyEmailRequestModel(
         email: state.email,
-        // verificationCode: state.verificationCode,
-        // static default value is used here,since it is still being maintained
-        verificationCode: "123456",
+        verificationCode: state.verificationCode,
       );
 
       final result = await _authRepository.verifyEmail(request);

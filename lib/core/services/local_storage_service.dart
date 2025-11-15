@@ -1,9 +1,11 @@
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
-
+import 'package:social_media_app/features/dashboard/dashboard.dart';
 import 'package:social_media_app/hive_registrar.g.dart';
 
+/// [_userInfo] define basic stuff of user like name,email
+/// [_userDetails] define whole about user details like hobbies,their location etc
 class LocalStorageService {
   LocalStorageService._();
 
@@ -11,14 +13,19 @@ class LocalStorageService {
   factory LocalStorageService() => _instance;
 
   late Box<UserAuthData> _userInfo;
+  late Box<LocalUserDetailsModel> _userLocalDetails;
 
   Future<void> init() async {
     await Hive.initFlutter();
     Hive.registerAdapters();
 
     _userInfo = await Hive.openBox<UserAuthData>(AppConstant.userInfoBox);
+    _userLocalDetails = await Hive.openBox<LocalUserDetailsModel>(
+      AppConstant.userLocalDetailsBox,
+    );
   }
 
+  // related to _userInfo
   Future<void> saveUserInfo(UserAuthData value) async =>
       await _userInfo.put(AppConstant.userInfoKey, value);
 
@@ -26,4 +33,14 @@ class LocalStorageService {
 
   Future<void> clearUserInfo() async =>
       await _userInfo.delete(AppConstant.userInfoKey);
+
+  // related to _userLocalDetails
+  Future<void> saveUserLocalDetails(LocalUserDetailsModel model) async =>
+      await _userLocalDetails.put(AppConstant.userLocalDetailsBox, model);
+
+  LocalUserDetailsModel? getUserLocalDetails() =>
+      _userLocalDetails.get(AppConstant.userLocalDetailsBox);
+
+  Future<void> clearUserLocalDetails() async =>
+      await _userLocalDetails.delete(AppConstant.userLocalDetailsBox);
 }

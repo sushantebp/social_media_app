@@ -34,3 +34,5 @@ export './constants/app_regex.dart';
 export './constants/api_endpoint.dart';
 
 export './helper/toast_helper.dart';
+
+export './services/location_service.dart';
