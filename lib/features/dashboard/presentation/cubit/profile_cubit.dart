@@ -3,8 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 import 'package:social_media_app/features/dashboard/data/models/profile/create_academic_request.dart';
 
-part 'profile_state.dart';
 part 'profile_cubit.freezed.dart';
+part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepository _profileRepository;
@@ -17,10 +17,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final result = await _profileRepository.getUserProfile();
 
-      result.fold((failure) => emit(_Error(failure.message)), (userProfile) {
-        final localUser = LocalUserDetailsModel.fromUser(userProfile.user);
-        emit(ProfileState.loaded(userDetails: localUser));
-      });
+      result.fold(
+        (failure) {
+          emit(_Error(failure.message));
+        },
+        (userProfile) {
+          final localUser = LocalUserDetailsModel.fromUser(userProfile.user);
+          emit(_Loaded(userDetails: localUser));
+        },
+      );
     } catch (e) {
       emit(_Error(e.toString()));
     }
@@ -54,10 +59,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(const _Loading());
     try {
       final result = await _profileRepository.updateDob(dob);
-      result.fold((failure) => emit(_Error(failure.message)), (_) async {
-        await getUserProfile();
-        emit(_Loaded(successMessage: "Date of birth updated successfully."));
-      });
+      result.fold(
+        (failure) {
+          emit(_Error(failure.message));
+        },
+        (_) async {
+          await getUserProfile();
+          emit(_Loaded(successMessage: "Date of birth updated successfully."));
+        },
+      );
     } catch (e) {
       emit(_Error(e.toString()));
     }
@@ -67,10 +77,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(const _Loading());
     try {
       final result = await _profileRepository.updateLocation(request);
-      result.fold((failure) => emit(_Error(failure.message)), (_) async {
-        await getUserProfile();
-        emit(_Loaded(successMessage: "Location updated successfully."));
-      });
+      result.fold(
+        (failure) {
+          emit(_Error(failure.message));
+        },
+        (_) async {
+          await getUserProfile();
+          emit(_Loaded(successMessage: "Location updated successfully."));
+        },
+      );
     } catch (e) {
       emit(_Error(e.toString()));
     }

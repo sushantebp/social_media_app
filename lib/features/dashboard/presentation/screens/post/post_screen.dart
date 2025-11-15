@@ -10,14 +10,15 @@ class PostScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
       floatingActionButton: FloatingActionButton(
         child: const FaIcon(FontAwesomeIcons.feather),
         onPressed: () => context.router.push(const CreateNewPostRoute()),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppSize.paddingMedium),
-        child: Column(children: []),
+      body: ListView.builder(
+        itemCount: 100,
+        itemBuilder: (context, index) {
+          return ListTile(title: Text('${index + 1}'));
+        },
       ),
     );
   }
