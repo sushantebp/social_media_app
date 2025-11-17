@@ -18,7 +18,7 @@ abstract class GetUserFeedResponseModel with _$GetUserFeedResponseModel {
 abstract class GetUserFeedData with _$GetUserFeedData {
   const factory GetUserFeedData({
     required List<FeedPost> posts,
-    required Pagination pagination,
+    required FeedPagination pagination,
   }) = _GetUserFeedData;
 
   factory GetUserFeedData.fromJson(Map<String, dynamic> json) =>
@@ -32,7 +32,7 @@ abstract class FeedPost with _$FeedPost {
     required String title,
     required String content,
     required String image,
-    required Author author,
+    required FeedAuthor author,
     required int likesCounter,
     required String createdAt,
     required String updatedAt,
@@ -43,20 +43,22 @@ abstract class FeedPost with _$FeedPost {
 }
 
 @freezed
-abstract class Author with _$Author {
-  const factory Author({required String id, required String name}) = _Author;
+abstract class FeedAuthor with _$FeedAuthor {
+  const factory FeedAuthor({required String id, required String name}) =
+      _FeedAuthor;
 
-  factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
+  factory FeedAuthor.fromJson(Map<String, dynamic> json) =>
+      _$FeedAuthorFromJson(json);
 }
 
 @freezed
-abstract class Pagination with _$Pagination {
-  const factory Pagination({
+abstract class FeedPagination with _$FeedPagination {
+  const factory FeedPagination({
     required int currentPage,
     required int totalPages,
     required int totalPosts,
-  }) = _Pagination;
+  }) = _FeedPagination;
 
-  factory Pagination.fromJson(Map<String, dynamic> json) =>
-      _$PaginationFromJson(json);
+  factory FeedPagination.fromJson(Map<String, dynamic> json) =>
+      _$FeedPaginationFromJson(json);
 }

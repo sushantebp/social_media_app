@@ -147,7 +147,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
     try {
       final response = await _dioClient.dio.put(
         ApiEndpoint.updateDOB,
-        data: {'dob': dob.toIso8601String()},
+        data: {'dateOfBirth': dob.toIso8601String()},
       );
       if (response.statusCode == 200) {
         return UpdateDobResponse.fromJson(response.data);

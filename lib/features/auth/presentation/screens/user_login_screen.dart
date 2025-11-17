@@ -19,17 +19,23 @@ class UserLoginScreen extends StatelessWidget {
       listenWhen: (previous, current) =>
           previous.authStatus != current.authStatus,
 
-      listener: (context, state) {
+      listener: (context, state) async {
         final status = state.authStatus;
-        final cubit = context.read<ProfileCubit>();
 
         if (status == AuthStatus.authenticated) {
           ToastHelper.success(
             context,
             state.successMessage ?? "Login successful",
           );
-          Future.delayed(const Duration(seconds: 2), () {
-            if (cubit.hasRegister()) {
+
+          final cubit = context.read<ProfileCubit>();
+
+          await cubit.getUserProfile();
+
+          final isRegistered = cubit.hasRegistered();
+
+          Future.microtask(() {
+            if (isRegistered) {
               router.replace(const DashboardRoute());
             } else {
               router.replace(const UserRegisterFormRoute());

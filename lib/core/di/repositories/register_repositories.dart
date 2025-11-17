@@ -45,4 +45,13 @@ void registerRepositories(GetIt sl) {
       sl<ProfileRemoteDataSource>(),
     ),
   );
+
+  // post repository
+
+  sl.registerLazySingleton<PostRemoteDataSource>(
+    () => PostRemoteDataSourceImpl(sl<DioClient>()),
+  );
+  sl.registerLazySingleton<PostRepository>(
+    () => PostRepositoryImpl(sl<PostRemoteDataSource>()),
+  );
 }
