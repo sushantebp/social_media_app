@@ -19,15 +19,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: const MyAppBar(title: "Profile", centerTitle: false),
       body: BlocConsumer<ProfileCubit, ProfileState>(
-        listener: (context, state) {
-          state.whenOrNull(
-            loaded: (_, _, _, _, successMessage) {
-              if (successMessage != null && successMessage.isNotEmpty) {
-                // showToast(message: successMessage);
-              }
-            },
-          );
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return state.when(
             loading: () => const _ProfileSkeleton(),

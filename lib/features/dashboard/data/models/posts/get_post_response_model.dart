@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'get_post_response_model.freezed.dart';
@@ -6,8 +8,12 @@ part 'get_post_response_model.g.dart';
 @freezed
 abstract class GetPostResponseModel with _$GetPostResponseModel {
   const factory GetPostResponseModel({
-    required String status,
-    required GetPostData data,
+    required List<GetPostItem> postList,
+    required int currentPage,
+    required int totalPages,
+    required int totalPosts,
+    required bool hasNextPage,
+    required bool hasPrevPage,
   }) = _GetPostResponseModel;
 
   factory GetPostResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -15,47 +21,55 @@ abstract class GetPostResponseModel with _$GetPostResponseModel {
 }
 
 @freezed
-abstract class GetPostData with _$GetPostData {
-  const factory GetPostData({
-    required List<Post> posts,
-    required Pagination pagination,
-  }) = _GetPostData;
+abstract class GetPostItem with _$GetPostItem {
+  const factory GetPostItem({
+    required GetPostPost post,
+    required List<GetPostComment> latestComment,
+  }) = _GetPostItem;
 
-  factory GetPostData.fromJson(Map<String, dynamic> json) =>
-      _$GetPostDataFromJson(json);
+  factory GetPostItem.fromJson(Map<String, dynamic> json) =>
+      _$GetPostItemFromJson(json);
 }
 
 @freezed
-abstract class Post with _$Post {
-  const factory Post({
-    required String id,
+abstract class GetPostPost with _$GetPostPost {
+  const factory GetPostPost({
+    @JsonKey(name: "_id") required String id,
     required String title,
     required String content,
     required String image,
-    required Author author,
+    required GetPostAuthor author,
     required int likesCounter,
+    required List<String> likes,
     required String createdAt,
     required String updatedAt,
-  }) = _Post;
+    @JsonKey(name: "__v") required int v,
+  }) = _GetPostPost;
 
-  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+  factory GetPostPost.fromJson(Map<String, dynamic> json) =>
+      _$GetPostPostFromJson(json);
 }
 
 @freezed
-abstract class Author with _$Author {
-  const factory Author({required String id, required String name}) = _Author;
+abstract class GetPostAuthor with _$GetPostAuthor {
+  const factory GetPostAuthor({
+    @JsonKey(name: "_id") required String id,
+    required String name,
+  }) = _GetPostAuthor;
 
-  factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
+  factory GetPostAuthor.fromJson(Map<String, dynamic> json) =>
+      _$GetPostAuthorFromJson(json);
 }
 
 @freezed
-abstract class Pagination with _$Pagination {
-  const factory Pagination({
-    required int currentPage,
-    required int totalPages,
-    required int totalPosts,
-  }) = _Pagination;
+abstract class GetPostComment with _$GetPostComment {
+  const factory GetPostComment({
+    @JsonKey(name: "_id") String? id,
+    String? content,
+    String? authorName,
+    String? createdAt,
+  }) = _GetPostComment;
 
-  factory Pagination.fromJson(Map<String, dynamic> json) =>
-      _$PaginationFromJson(json);
+  factory GetPostComment.fromJson(Map<String, dynamic> json) =>
+      _$GetPostCommentFromJson(json);
 }

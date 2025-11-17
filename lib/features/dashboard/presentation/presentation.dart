@@ -12,3 +12,4 @@ export './screens/post/create_new_post_screen.dart';
 export './widgets/profile/custom_profile_tile.dart';
 export './cubit/profile_cubit.dart';
 export './screens/profile/edit_profile_screen.dart';
+export './cubit/post_cubit.dart';

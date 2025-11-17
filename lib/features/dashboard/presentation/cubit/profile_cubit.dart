@@ -225,16 +225,11 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  bool hasRegister() {
+  bool hasRegistered() {
     if (state is _Loaded) {
       final user = (state as _Loaded).userDetails;
-
-      if (user == null) return false;
-      final isDobFilled = user.dateOfBirth != null;
-
-      return isDobFilled;
+      return user?.dateOfBirth != null && user!.dateOfBirth!.isNotEmpty;
     }
-
     return false;
   }
 }

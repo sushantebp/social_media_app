@@ -34,6 +34,7 @@ class SocialMediaApp extends StatelessWidget {
         BlocProvider(create: (_) => AuthBloc(sl<AuthRepository>())),
         BlocProvider(create: (_) => BottomBarCubit()),
         BlocProvider(create: (_) => ProfileCubit(sl<ProfileRepository>())),
+        BlocProvider(create: (_) => PostCubit(sl<PostRepository>())),
       ],
       child: MaterialApp.router(
         theme: AppTheme.lightTheme,
