@@ -16,7 +16,8 @@ abstract class ProfileRemoteDataSource {
   Future<void> deleteAcademicQualification();
 
   Future<UpdateDobResponse> updateDob(DateTime dob);
-  Future<LocationResponseModel> updateLocation(LocationRequestModel request);
+
+  Future<UserLocationModel> updateLocation();
 
   Future<GetFollowersResponseModel> getFollowers();
   Future<GetFollowersResponseModel> getFollowing();
@@ -165,32 +166,6 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   }
 
   @override
-  Future<LocationResponseModel> updateLocation(
-    LocationRequestModel request,
-  ) async {
-    try {
-      final response = await _dioClient.dio.put(
-        ApiEndpoint.updateLocation,
-        data: request.toJson(),
-      );
-      if (response.statusCode == 200) {
-        return LocationResponseModel.fromJson(response.data);
-      }
-      throw DioAppException.fromDioError(
-        DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          message: "Failed to update location",
-        ),
-      );
-    } on DioException catch (e) {
-      throw DioAppException.fromDioError(e);
-    } catch (e) {
-      throw UnknownException("$e");
-    }
-  }
-
-  @override
   Future<GetFollowersResponseModel> getFollowers() async {
     try {
       final response = await _dioClient.dio.get(ApiEndpoint.getFollower);
@@ -274,6 +249,46 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
           response: response,
           message: "Failed to unfollow users",
         ),
+      );
+    } on DioException catch (e) {
+      throw DioAppException.fromDioError(e);
+    } catch (e) {
+      throw UnknownException("$e");
+    }
+  }
+
+  @override
+  Future<UserLocationModel> updateLocation() async {
+    try {
+      // Get current position
+      final position = await LocationService().determinePosition();
+
+      final request = LocationRequestWrapper(
+        data: LocationRequestData(
+          location: UserLocationModel(
+            lat: position.latitude,
+            lng: position.longitude,
+          ),
+        ),
+      );
+
+      // Send POST request
+      final response = await _dioClient.dio.post(
+        ApiEndpoint.updateLocation,
+        data: request.toJson(),
+      );
+
+      // Parse response
+      if (response.statusCode == 200 && response.data != null) {
+        // parse a/q to response
+        final locationJson = response.data['data']['location'];
+        return UserLocationModel.fromJson(locationJson);
+      }
+
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        message: "Failed to update location",
       );
     } on DioException catch (e) {
       throw DioAppException.fromDioError(e);

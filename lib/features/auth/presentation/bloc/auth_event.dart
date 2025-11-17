@@ -4,38 +4,66 @@ sealed class AuthEvent {
   const AuthEvent();
 }
 
-final class NameChanged extends AuthEvent {
+class NameChanged extends AuthEvent {
   final String name;
   const NameChanged(this.name);
 }
 
-final class EmailChanged extends AuthEvent {
+class EmailChanged extends AuthEvent {
   final String email;
   const EmailChanged(this.email);
 }
 
-final class PasswordChanged extends AuthEvent {
+class PasswordChanged extends AuthEvent {
   final String password;
   const PasswordChanged(this.password);
 }
 
-final class RegisterSubmitted extends AuthEvent {
+class RegisterSubmitted extends AuthEvent {
   const RegisterSubmitted();
 }
 
-final class CodeChanged extends AuthEvent {
+class CodeChanged extends AuthEvent {
   final String verificationCode;
   const CodeChanged(this.verificationCode);
 }
 
-final class VerifyUserEmail extends AuthEvent {
+class VerifyUserEmail extends AuthEvent {
   const VerifyUserEmail();
 }
 
-final class LoginSubmitted extends AuthEvent {
+class LoginSubmitted extends AuthEvent {
   const LoginSubmitted();
 }
 
-final class LogoutSubmitted extends AuthEvent {
+class LogoutSubmitted extends AuthEvent {
   const LogoutSubmitted();
+}
+
+class UserBirthdayChanged extends AuthEvent {
+  final DateTime? dateTime;
+  const UserBirthdayChanged(this.dateTime);
+}
+
+class UserHobbiesChanged extends AuthEvent {
+  final List<String> hobbies;
+  const UserHobbiesChanged(this.hobbies);
+}
+
+class LocationChanged extends AuthEvent {
+  const LocationChanged();
+}
+
+class UserCourseChanged extends AuthEvent {
+  final String course;
+  const UserCourseChanged(this.course);
+}
+
+class UserGraduationYearChanged extends AuthEvent {
+  final String graduationYear;
+  const UserGraduationYearChanged(this.graduationYear);
+}
+
+class UserRegisterFormSubmitted extends AuthEvent {
+  const UserRegisterFormSubmitted();
 }

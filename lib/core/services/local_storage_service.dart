@@ -6,14 +6,18 @@ import 'package:social_media_app/hive_registrar.g.dart';
 
 /// [_userInfo] define basic stuff of user like name,email
 /// [_userDetails] define whole about user details like hobbies,their location etc
+/// [_userLocation] define about user's location's lat and lang,basically coordinates
 class LocalStorageService {
   LocalStorageService._();
 
   static final LocalStorageService _instance = LocalStorageService._();
   factory LocalStorageService() => _instance;
 
+  LocalStorageService get instance => _instance;
+
   late Box<UserAuthData> _userInfo;
   late Box<LocalUserDetailsModel> _userLocalDetails;
+  late Box<UserLocationModel> _userLocation;
 
   Future<void> init() async {
     await Hive.initFlutter();
@@ -22,6 +26,10 @@ class LocalStorageService {
     _userInfo = await Hive.openBox<UserAuthData>(AppConstant.userInfoBox);
     _userLocalDetails = await Hive.openBox<LocalUserDetailsModel>(
       AppConstant.userLocalDetailsBox,
+    );
+
+    _userLocation = await Hive.openBox<UserLocationModel>(
+      AppConstant.userLcoationBox,
     );
   }
 
@@ -43,4 +51,14 @@ class LocalStorageService {
 
   Future<void> clearUserLocalDetails() async =>
       await _userLocalDetails.delete(AppConstant.userLocalDetailsBox);
+
+  // saving user location
+  Future<void> saveUserLocation(UserLocationModel model) async =>
+      await _userLocation.put(AppConstant.userLocationKey, model);
+
+  UserLocationModel? getUserLocation() =>
+      _userLocation.get(AppConstant.userLocationKey);
+
+  Future<void> clearUserLocation() async =>
+      await _userLocation.delete(AppConstant.userLocationKey);
 }

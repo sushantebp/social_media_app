@@ -1,26 +1,25 @@
-import 'package:flutter/material.dart';
-
 import 'package:auto_route/auto_route.dart';
-
+import 'package:flutter/material.dart';
+import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
-import 'package:social_media_app/features/splash/splash.dart';
 import 'package:social_media_app/features/onboarding/onboarding.dart';
-
-import 'package:social_media_app/core/core.dart';
+import 'package:social_media_app/features/splash/splash.dart';
 
 part 'app_router.gr.dart';
 part 'auth_guard.dart';
 
+/// Main application router.
+/// Has public (auth) routes + protected dashboard routes
+/// Uses [AuthGuard] to block unauthenticated access
+
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends RootStackRouter {
   final _authGuard = AuthGuard();
+
   AppRouter._internal();
-
   static final AppRouter _instance = AppRouter._internal();
-
   factory AppRouter() => _instance;
-
   static AppRouter get instance => _instance;
 
   @override
@@ -28,15 +27,14 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    // showoff,inital screen
-    AutoRoute(initial: true, page: SplashRoute.page),
-    AutoRoute(page: OnboardingRoute.page),
-    // auth-related
+    // Public auth routes
+    AutoRoute(initial: true, page: UserLoginRoute.page),
     AutoRoute(page: UserRegisterRoute.page),
-    AutoRoute(page: UserLoginRoute.page),
     AutoRoute(page: UserEmailVerifyRoute.page),
+    AutoRoute(page: UserRegisterFormRoute.page),
     AutoRoute(page: UserPasswordChangeRoute.page),
-    // screen related to bottom-nav-bar (dashboard)
+
+    // Dashboard (protected)
     AutoRoute(
       page: DashboardRoute.page,
       guards: [_authGuard],
@@ -63,7 +61,7 @@ class AppRouter extends RootStackRouter {
       ],
     ),
 
-    // screen assopciatge with post(dashboard)
+    // Post creation (protected)
     AutoRoute(page: CreateNewPostRoute.page, guards: [_authGuard]),
   ];
 }

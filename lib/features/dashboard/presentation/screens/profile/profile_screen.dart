@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/core/core.dart';
+import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
 @RoutePage()
@@ -11,6 +12,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ProfileCubit>();
+    final bloc = context.read<AuthBloc>();
 
     cubit.getUserProfile();
 
@@ -19,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           state.whenOrNull(
-            loaded: (_, successMessage) {
+            loaded: (_, _, successMessage) {
               if (successMessage != null && successMessage.isNotEmpty) {
                 // showToast(message: successMessage);
               }
@@ -32,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
             initial: () => const _ProfileSkeleton(),
             error: (errorMessage) =>
                 Center(child: Text(errorMessage ?? "Something went wrong")),
-            loaded: (user, successMessage) {
+            loaded: (user, _, successMessage) {
               return SingleChildScrollView(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.paddingMedium,
@@ -186,7 +188,8 @@ class ProfileScreen extends StatelessWidget {
                               title: 'Log Out',
                               type: AppButtonType.outlined,
                               fgColor: Colors.red,
-                              onPressed: () {},
+                              onPressed: () =>
+                                  bloc.add(const LogoutSubmitted()),
                             ),
                           ),
                         ),
