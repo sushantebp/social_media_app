@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
+import 'package:social_media_app/features/dashboard/presentation/cubit/profile_cubit.dart';
 
 @RoutePage()
 class UserLoginScreen extends StatelessWidget {
@@ -20,14 +21,19 @@ class UserLoginScreen extends StatelessWidget {
 
       listener: (context, state) {
         final status = state.authStatus;
+        final cubit = context.read<ProfileCubit>();
 
         if (status == AuthStatus.authenticated) {
           ToastHelper.success(
             context,
             state.successMessage ?? "Login successful",
           );
-          Future.delayed(const Duration(seconds: 1), () {
-            router.replace(const DashboardRoute());
+          Future.delayed(const Duration(seconds: 2), () {
+            if (cubit.hasRegister()) {
+              router.replace(const DashboardRoute());
+            } else {
+              router.replace(const UserRegisterFormRoute());
+            }
           });
         } else if (status == AuthStatus.error) {
           ToastHelper.error(

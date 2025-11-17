@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/data/data.dart';
-import 'package:social_media_app/features/dashboard/data/models/profile/create_academic_request.dart';
 import 'package:social_media_app/features/dashboard/domain/domain.dart';
 
 class ProfileRepositoryImpl extends ProfileRepository {
@@ -12,12 +11,12 @@ class ProfileRepositoryImpl extends ProfileRepository {
   ProfileRepositoryImpl(this._localDataSource, this._remoteDataSource);
 
   @override
-  Future<Result<GetUserProfileResponseModel>> getUserProfile() async {
+  Future<Result<UserAcademicsProfileResponseModel>> getUserProfile() async {
     try {
       final response = await _remoteDataSource.getUserProfile();
       // Save locally
       await _localDataSource.saveUserProfileDetails(
-        LocalUserDetailsModel.fromUser(response.user),
+        LocalUserDetailsModel.fromUserAcademics(response.user),
       );
       return Right(response);
     } on DioException catch (e) {
@@ -28,7 +27,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<Result<HobbiesResponseModel>> updateHobbies(
+  Future<Result<HobbiesUpdateResponseModel>> updateHobbies(
     List<String> hobbies,
   ) async {
     try {
@@ -55,7 +54,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
 
   @override
   Future<Result<AcademicResponseModel>> updateAcademicQualification(
-    CreateAcademicRequest request,
+    AcademicData request,
   ) async {
     try {
       final response = await _remoteDataSource.updateAcademicQualification(

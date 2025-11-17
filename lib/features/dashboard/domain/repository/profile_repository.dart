@@ -1,16 +1,17 @@
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/data/data.dart';
-import 'package:social_media_app/features/dashboard/data/models/profile/create_academic_request.dart';
 
 abstract class ProfileRepository {
   // user management
-  Future<Result<GetUserProfileResponseModel>> getUserProfile();
+  Future<Result<UserAcademicsProfileResponseModel>> getUserProfile();
 
-  Future<Result<HobbiesResponseModel>> updateHobbies(List<String> hobbies);
+  Future<Result<HobbiesUpdateResponseModel>> updateHobbies(
+    List<String> hobbies,
+  );
   Future<void> deleteHobby();
 
   Future<Result<AcademicResponseModel>> updateAcademicQualification(
-    CreateAcademicRequest request,
+    AcademicData request,
   );
   Future<void> deleteAcademicQualification();
 

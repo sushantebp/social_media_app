@@ -21,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           state.whenOrNull(
-            loaded: (_, _, successMessage) {
+            loaded: (_, _, _, _, successMessage) {
               if (successMessage != null && successMessage.isNotEmpty) {
                 // showToast(message: successMessage);
               }
@@ -34,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
             initial: () => const _ProfileSkeleton(),
             error: (errorMessage) =>
                 Center(child: Text(errorMessage ?? "Something went wrong")),
-            loaded: (user, _, successMessage) {
+            loaded: (user, _, _, _, successMessage) {
               return SingleChildScrollView(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.paddingMedium,

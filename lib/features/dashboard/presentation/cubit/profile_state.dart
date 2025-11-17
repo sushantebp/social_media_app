@@ -6,11 +6,10 @@ abstract class ProfileState with _$ProfileState {
   const factory ProfileState.loading() = _Loading;
 
   const factory ProfileState.loaded({
-    @Default(
-      LocalUserDetailsModel(id: '', name: '', email: '', verified: false),
-    )
     LocalUserDetailsModel? userDetails,
-    UserAcademiceQModel? userAcademicQ,
+    List<String>? hobbies,
+    DateTime? dob,
+    List<AcademicQualificationItem>? academics,
     String? successMessage,
   }) = _Loaded;
 

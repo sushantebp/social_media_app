@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
-import 'package:social_media_app/features/dashboard/data/models/profile/create_academic_request.dart';
 
 part 'profile_cubit.freezed.dart';
 part 'profile_state.dart';
@@ -23,7 +21,9 @@ class ProfileCubit extends Cubit<ProfileState> {
           emit(_Error(failure.message));
         },
         (userProfile) {
-          final localUser = LocalUserDetailsModel.fromUser(userProfile.user);
+          final localUser = LocalUserDetailsModel.fromUserAcademics(
+            userProfile.user,
+          );
           emit(_Loaded(userDetails: localUser));
         },
       );
@@ -92,9 +92,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updateAcademicQualification(
-    CreateAcademicRequest request,
-  ) async {
+  Future<void> updateAcademicQualification(AcademicData request) async {
     emit(const _Loading());
 
     try {
@@ -181,7 +179,9 @@ class ProfileCubit extends Cubit<ProfileState> {
           userProfileResult.fold((failure) => emit(_Error(failure.message)), (
             userProfile,
           ) {
-            final localUser = LocalUserDetailsModel.fromUser(userProfile.user);
+            final localUser = LocalUserDetailsModel.fromUserAcademics(
+              userProfile.user,
+            );
 
             emit(
               ProfileState.loaded(
@@ -208,7 +208,9 @@ class ProfileCubit extends Cubit<ProfileState> {
         userProfileResult.fold((failure) => emit(_Error(failure.message)), (
           userProfile,
         ) {
-          final localUser = LocalUserDetailsModel.fromUser(userProfile.user);
+          final localUser = LocalUserDetailsModel.fromUserAcademics(
+            userProfile.user,
+          );
 
           emit(
             ProfileState.loaded(

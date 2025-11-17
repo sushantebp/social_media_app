@@ -5,24 +5,25 @@ part 'get_user_profile_response_model.freezed.dart';
 part 'get_user_profile_response_model.g.dart';
 
 @freezed
-abstract class GetUserProfileResponseModel with _$GetUserProfileResponseModel {
-  const factory GetUserProfileResponseModel({required User user}) =
-      _GetUserProfileResponseModel;
+abstract class UserAcademicsProfileResponseModel
+    with _$UserAcademicsProfileResponseModel {
+  const factory UserAcademicsProfileResponseModel({required UserAcademics user}) =
+      _UserAcademicsProfileResponseModel;
 
-  factory GetUserProfileResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$GetUserProfileResponseModelFromJson(json);
+  factory UserAcademicsProfileResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$UserAcademicsProfileResponseModelFromJson(json);
 }
 
 @freezed
-abstract class User with _$User {
-  const factory User({
-    required VerificationCode verificationCode,
+abstract class UserAcademics with _$UserAcademics {
+  const factory UserAcademics({
+    required VerificationCodeAcademics verificationCode,
     @JsonKey(name: '_id') required String id,
     required String name,
     required String email,
     required String password,
     required List<String> hobbies,
-    String? dateOfBirth,
+    String? dateOfBirth, // could also be DateTime? with converter
     required List<String> followers,
     required List<String> following,
     String? resetPasswordToken,
@@ -30,18 +31,32 @@ abstract class User with _$User {
     required List<String> whitelist,
     required bool verified,
     required int defaultVerificationCode,
-    required List<String> academicQualification,
-    @JsonKey(name: '__v') required int v,
-  }) = _User;
+    required List<AcademicItem> academicQualification,
+    @JsonKey(name: '__v') required int version,
+  }) = _UserAcademics;
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory UserAcademics.fromJson(Map<String, dynamic> json) =>
+      _$UserAcademicsFromJson(json);
 }
 
 @freezed
-abstract class VerificationCode with _$VerificationCode {
-  const factory VerificationCode({required String createdAt}) =
-      _VerificationCode;
+abstract class VerificationCodeAcademics with _$VerificationCodeAcademics {
+  const factory VerificationCodeAcademics({
+    required String createdAt, // or DateTime
+  }) = _VerificationCodeAcademics;
 
-  factory VerificationCode.fromJson(Map<String, dynamic> json) =>
-      _$VerificationCodeFromJson(json);
+  factory VerificationCodeAcademics.fromJson(Map<String, dynamic> json) =>
+      _$VerificationCodeAcademicsFromJson(json);
+}
+
+@freezed
+abstract class AcademicItem with _$AcademicItem {
+  const factory AcademicItem({
+    required int passedYear,
+    required String degreeName,
+    @JsonKey(name: '_id') required String id,
+  }) = _AcademicItem;
+
+  factory AcademicItem.fromJson(Map<String, dynamic> json) =>
+      _$AcademicItemFromJson(json);
 }

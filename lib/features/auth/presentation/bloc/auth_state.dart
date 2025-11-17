@@ -19,7 +19,7 @@ abstract class AuthState with _$AuthState {
     @Default([]) List<String> hobbies,
 
     // Academic List
-    @Default([]) List<UserAcademiceQModel> academiceQ,
+    @Default([]) List<AcademicData> academiceQ,
 
     // Feedback
     String? errorMessage,

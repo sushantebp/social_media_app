@@ -2,9 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
+import 'package:social_media_app/features/dashboard/dashboard.dart';
 
 part 'auth_bloc.freezed.dart';
 part 'auth_bloc.g.dart';
+
 part 'auth_event.dart';
 part 'auth_state.dart';
 

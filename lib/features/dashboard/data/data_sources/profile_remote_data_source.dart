@@ -1,17 +1,17 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/data/data.dart';
-import 'package:social_media_app/features/dashboard/data/models/profile/create_academic_request.dart';
 
 abstract class ProfileRemoteDataSource {
-  Future<GetUserProfileResponseModel> getUserProfile();
-  Future<HobbiesResponseModel> updateHobbies(List<String> hobbies);
+  Future<UserAcademicsProfileResponseModel> getUserProfile();
+  Future<HobbiesUpdateResponseModel> updateHobbies(List<String> hobbies);
   Future<void> deleteHobby();
 
   Future<AcademicResponseModel> updateAcademicQualification(
-    CreateAcademicRequest request,
+    AcademicData request,
   );
   Future<void> deleteAcademicQualification();
 
@@ -30,11 +30,11 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   ProfileRemoteDataSourceImpl(this._dioClient);
 
   @override
-  Future<GetUserProfileResponseModel> getUserProfile() async {
+  Future<UserAcademicsProfileResponseModel> getUserProfile() async {
     try {
       final response = await _dioClient.dio.get(ApiEndpoint.getUserProfile);
       if (response.statusCode == 200) {
-        return GetUserProfileResponseModel.fromJson(response.data);
+        return UserAcademicsProfileResponseModel.fromJson(response.data);
       } else {
         throw DioAppException.fromDioError(
           DioException(
@@ -52,14 +52,15 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   }
 
   @override
-  Future<HobbiesResponseModel> updateHobbies(List<String> hobbies) async {
+  Future<HobbiesUpdateResponseModel> updateHobbies(List<String> hobbies) async {
     try {
       final response = await _dioClient.dio.put(
         ApiEndpoint.updateHobbie,
         data: jsonEncode({'hobbies': hobbies}),
       );
       if (response.statusCode == 200) {
-        return HobbiesResponseModel.fromJson(response.data);
+        log("Response : ${response.data}");
+        return HobbiesUpdateResponseModel.fromJson(response.data);
       }
       throw DioAppException.fromDioError(
         DioException(
@@ -97,7 +98,7 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
 
   @override
   Future<AcademicResponseModel> updateAcademicQualification(
-    CreateAcademicRequest request,
+    AcademicData request,
   ) async {
     try {
       final response = await _dioClient.dio.put(

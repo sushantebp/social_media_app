@@ -1,3 +1,4 @@
+// ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce_flutter/adapters.dart';
 
@@ -21,18 +22,19 @@ abstract class LocalUserDetailsModel with _$LocalUserDetailsModel {
     @HiveField(8) int? defaultVerificationCode,
   }) = _LocalUserDetailsModel;
 
-  /// Create LocalUserDetailsModel from backend User model
-  factory LocalUserDetailsModel.fromUser(User user) => LocalUserDetailsModel(
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    verified: user.verified,
-    dateOfBirth: user.dateOfBirth,
-    hobbies: user.hobbies,
-    followers: user.followers,
-    following: user.following,
-    defaultVerificationCode: user.defaultVerificationCode,
-  );
+  /// Create LocalUserDetailsModel from backend UserAcademics model
+  factory LocalUserDetailsModel.fromUserAcademics(UserAcademics user) =>
+      LocalUserDetailsModel(
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        verified: user.verified,
+        dateOfBirth: user.dateOfBirth,
+        hobbies: user.hobbies,
+        followers: user.followers,
+        following: user.following,
+        defaultVerificationCode: user.defaultVerificationCode,
+      );
 
   factory LocalUserDetailsModel.fromJson(Map<String, dynamic> json) =>
       _$LocalUserDetailsModelFromJson(json);
