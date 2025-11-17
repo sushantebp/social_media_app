@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/data/data.dart';
-import 'package:social_media_app/features/dashboard/domain/domain.dart';
 import 'package:social_media_app/features/dashboard/data/models/profile/create_academic_request.dart';
+import 'package:social_media_app/features/dashboard/domain/domain.dart';
 
 class ProfileRepositoryImpl extends ProfileRepository {
   final ProfileLocalDataSource _localDataSource;
@@ -95,11 +94,9 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<Result<LocationResponseModel>> updateLocation(
-    LocationRequestModel request,
-  ) async {
+  Future<Result<UserLocationModel>> updateLocation() async {
     try {
-      final response = await _remoteDataSource.updateLocation(request);
+      final response = await _remoteDataSource.updateLocation();
       return Right(response);
     } on DioException catch (e) {
       return Left(DioAppException.fromDioError(e));

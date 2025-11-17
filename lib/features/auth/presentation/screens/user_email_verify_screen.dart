@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 
@@ -31,7 +29,7 @@ class UserEmailVerifyScreen extends StatelessWidget {
           );
 
           Future.delayed(
-            const Duration(milliseconds: 1242),
+            const Duration(milliseconds: 1024),
             () => router.replace(const UserLoginRoute()),
           );
         } else if (status == AuthStatus.error) {

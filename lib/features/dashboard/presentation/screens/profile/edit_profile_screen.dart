@@ -14,7 +14,7 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<ProfileCubit>();
     final user = cubit.state.maybeWhen(
-      loaded: (userDetails, __) => userDetails,
+      loaded: (userDetails, __, _) => userDetails,
       orElse: () => null,
     );
 
@@ -32,7 +32,7 @@ class EditProfileScreen extends StatelessWidget {
       body: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
           state.maybeWhen(
-            loaded: (userDetails, message) {
+            loaded: (userDetails, _, message) {
               if (message != null && message.isNotEmpty) {
                 ScaffoldMessenger.of(
                   context,

@@ -1,5 +1,9 @@
 part of 'app_router.dart';
 
+/// [AuthGuard] prevents access to protected routes.
+/// - If token exists → allow
+/// - If token missing → redirect to [UserLoginRoute]
+
 class AuthGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {

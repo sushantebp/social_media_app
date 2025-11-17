@@ -1,5 +1,4 @@
 import 'package:geolocator/geolocator.dart';
-
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
@@ -10,6 +9,7 @@ abstract class ProfileLocalDataSource {
   Future<void> saveUserProfileDetails(LocalUserDetailsModel userDetails);
 
   LocalUserDetailsModel? getUserDetails();
+  
 }
 
 class ProfileLocalDataSourceImpl extends ProfileLocalDataSource {

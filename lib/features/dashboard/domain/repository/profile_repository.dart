@@ -15,9 +15,8 @@ abstract class ProfileRepository {
   Future<void> deleteAcademicQualification();
 
   Future<Result<UpdateDobResponse>> updateDob(DateTime dob);
-  Future<Result<LocationResponseModel>> updateLocation(
-    LocationRequestModel request,
-  );
+  Future<Result<UserLocationModel>> updateLocation();
+  // update location
 
   // related to follower and following stuff
   Future<Result<GetFollowersResponseModel>> getFollowers();

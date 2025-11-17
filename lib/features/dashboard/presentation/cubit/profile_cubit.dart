@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 import 'package:social_media_app/features/dashboard/data/models/profile/create_academic_request.dart';
 
@@ -73,10 +74,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updateLocation(LocationRequestModel request) async {
+  Future<void> updateLocation() async {
     emit(const _Loading());
     try {
-      final result = await _profileRepository.updateLocation(request);
+      final result = await _profileRepository.updateLocation();
       result.fold(
         (failure) {
           emit(_Error(failure.message));
@@ -220,5 +221,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       emit(_Error(e.toString()));
     }
+  }
+
+  bool hasRegister() {
+    if (state is _Loaded) {
+      final user = (state as _Loaded).userDetails;
+
+      if (user == null) return false;
+      final isDobFilled = user.dateOfBirth != null;
+
+      return isDobFilled;
+    }
+
+    return false;
   }
 }

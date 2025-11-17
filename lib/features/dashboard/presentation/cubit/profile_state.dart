@@ -10,6 +10,7 @@ abstract class ProfileState with _$ProfileState {
       LocalUserDetailsModel(id: '', name: '', email: '', verified: false),
     )
     LocalUserDetailsModel? userDetails,
+    UserAcademiceQModel? userAcademicQ,
     String? successMessage,
   }) = _Loaded;
 
