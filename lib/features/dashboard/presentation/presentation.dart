@@ -25,3 +25,13 @@ export './widgets/profile/profile_birthday_section.dart';
 export './widgets/profile/profile_buttons_section.dart';
 export './widgets/profile/interest_chip.dart';
 export './widgets/profile/stat_column.dart';
+
+export 'widgets/posts/post_actions.dart';
+export 'widgets/posts/post_card.dart';
+export 'widgets/posts/post_comment_section.dart';
+export 'widgets/posts/post_content.dart';
+export 'widgets/posts/post_footer.dart';
+export 'widgets/posts/post_header.dart';
+export 'widgets/posts/post_image.dart';
+export 'widgets/posts/pagination_info.dart';
+export 'widgets/posts/post_list_view.dart';
