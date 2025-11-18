@@ -6,6 +6,8 @@ import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// post screen
+
 @RoutePage()
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
@@ -203,4 +205,4 @@ class _PostScreenState extends State<PostScreen> {
 }
 
 /// when post is empty ---> no post
-/// 
+///
