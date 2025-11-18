@@ -2,301 +2,106 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/core/core.dart';
-import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
 @RoutePage()
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileCubit>().getUserProfile();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final cubit = context.read<ProfileCubit>();
-    final bloc = context.read<AuthBloc>();
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: const MyAppBar(title: "Profile", centerTitle: false),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSize.paddingMedium,
+            ),
+            child: state.when(
+              initial: () => const ProfileInitial(),
+              loading: () => const ProfileLoading(),
+              loaded: (userDetails, _, _, _, _) =>
+                  ProfileDetailsLoaded(user: userDetails!),
+              error: (errorMessage) => ProfileError(
+                message: errorMessage ?? "Failed to fetch profile",
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
 
-    cubit.getUserProfile();
+//
+// ---------------- PROFILE LOADED ----------------
+class ProfileDetailsLoaded extends StatelessWidget {
+  final LocalUserDetailsModel user;
 
-    return Scaffold(
-      appBar: const MyAppBar(title: "Profile", centerTitle: false),
-      body: BlocConsumer<ProfileCubit, ProfileState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return state.when(
-            loading: () => const _ProfileSkeleton(),
-            initial: () => const _ProfileSkeleton(),
-            error: (errorMessage) =>
-                Center(child: Text(errorMessage ?? "Something went wrong")),
-            loaded: (user, _, _, _, successMessage) {
-              return SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.paddingMedium,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: AppSize.marginLarge * 2),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: context.colorScheme.onSurface.withValues(
-                                  alpha: 0.1,
-                                ),
-                              ),
-                              padding: const EdgeInsets.all(3),
-                              child: CircleAvatar(
-                                radius: 42,
-                                backgroundImage: NetworkImage(
-                                  // user.profileImage ??
-                                  "https://i.pravatar.cc/300",
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+  const ProfileDetailsLoaded({super.key, required this.user});
 
-                        const SizedBox(width: 24),
-
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              StatColumn(
-                                // count: "${user.posts?.length ?? 0}",
-                                count: "2",
-                                label: "Posts",
-                              ),
-                              StatColumn(
-                                // count: "${user.followers?.length ?? 0}",
-                                count: "12",
-                                label: "Followers",
-                              ),
-                              StatColumn(
-                                // count: "${user.following?.length ?? 0}",
-                                count: "34",
-                                label: "Following",
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // ---------------- NAME + VERIFIED ----------------
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            user?.name ?? "Unknown User",
-                            style: context.textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-
-                        if (user?.verified == true)
-                          Icon(
-                            Icons.verified,
-                            color: Colors.blue.shade500,
-                            size: 20,
-                          ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 6),
-
-                    Text(
-                      user?.email ?? "",
-                      style: context.textTheme.bodyMedium,
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    // ---------------- INTERESTS ----------------
-                    Text("Interests", style: context.textTheme.titleMedium),
-                    const SizedBox(height: 6),
-
-                    // Wrap(
-                    //   spacing: 8,
-                    //   runSpacing: 8,
-                    //   children: (user?.hobbies?.isNotEmpty ?? false)
-                    //       // ? user.hobbies
-                    //       //       .map((h) => InterestChip(label: h))
-                    //       //       .toList()
-                    //       user?.hobbies.map((hobby)=> InterestChip(label: hobby)).toList()
-                    //       : [InterestChip(label: "No interests added")],
-                    // ),
-                    const SizedBox(height: 20),
-
-                    // ---------------- BIRTHDAY ----------------
-                    Text("Birthday", style: context.textTheme.titleMedium),
-                    const SizedBox(height: 6),
-
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.cake,
-                          color: context.colorScheme.primary,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          user?.dateOfBirth ?? "Not set",
-                          style: context.textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    // ---------------- BUTTONS ROW ----------------
-                    Row(
-                      children: [
-                        Expanded(
-                          child: AppButton(
-                            title: 'Edit Profile',
-                            onPressed: () =>
-                                context.router.push(const EditProfileRoute()),
-                            type: AppButtonType.outlined,
-                          ),
-                        ),
-                        const SizedBox(width: AppSize.marginMedium),
-                        Expanded(
-                          child: Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: Theme.of(
-                                context,
-                              ).colorScheme.copyWith(primary: Colors.red),
-                            ),
-                            child: AppButton(
-                              title: 'Log Out',
-                              type: AppButtonType.outlined,
-                              fgColor: Colors.red,
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text(
-                                        "Log Out",
-                                        style: context.textTheme.titleLarge,
-                                      ),
-                                      content: Text(
-                                        "Are you sure to logout?",
-                                        style: context.textTheme.titleMedium,
-                                      ),
-                                      actions: [
-                                        AppButton(
-                                          type: AppButtonType.text,
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                          title: "No",
-                                        ),
-                                        AppButton(
-                                          type: AppButtonType.text,
-                                          onPressed: () {
-                                            bloc.add(const LogoutSubmitted());
-                                            context.router.replace(
-                                              const UserLoginRoute(),
-                                            );
-                                          },
-                                          title: "Yes",
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 40),
-                  ],
-                ),
-              );
-            },
-          );
-        },
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProfileHeaderSection(user: user),
+          const SizedBox(height: AppSize.spaceLarge),
+          ProfileNameEmailSection(user: user),
+          const SizedBox(height: AppSize.spaceMedium),
+          ProfileInterestsSection(user: user),
+          const SizedBox(height: AppSize.spaceMedium),
+          ProfileBirthdaySection(user: user),
+          const SizedBox(height: AppSize.spaceLarge),
+          ProfileButtonsSection(),
+          const SizedBox(height: AppSize.spaceExtraLarge),
+        ],
       ),
     );
   }
 }
 
 //
-// --------------------- INTEREST CHIP ---------------------
-//
-class InterestChip extends StatelessWidget {
-  final String label;
-  const InterestChip({super.key, required this.label});
+// ---------------- PROFILE INITIAL ----------------
+class ProfileInitial extends StatelessWidget {
+  const ProfileInitial({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSize.marginMedium,
-        vertical: AppSize.marginMedium / 2,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.marginLarge),
-        color: context.colorScheme.onSurface.withValues(alpha: 0.1),
-      ),
-      child: Text(label, style: context.textTheme.labelMedium),
+    return Center(
+      child: Text("Fetching profile...", style: context.textTheme.bodyMedium),
     );
   }
 }
 
 //
-// ---------------------- STAT COLUMN ----------------------
-//
-class StatColumn extends StatelessWidget {
-  final String count;
-  final String label;
-  const StatColumn({super.key, required this.count, required this.label});
+// ---------------- PROFILE LOADING ----------------
+class ProfileLoading extends StatelessWidget {
+  const ProfileLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          count,
-          style: context.textTheme.labelLarge?.copyWith(fontSize: 17),
-        ),
-        const SizedBox(height: AppSize.marginSmall / 2),
-        Text(label, style: context.textTheme.labelLarge),
-      ],
-    );
-  }
-}
-
-//
-// --------------------- SKELETON UI ----------------------
-//
-class _ProfileSkeleton extends StatelessWidget {
-  const _ProfileSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: AppSize.paddingMedium),
+    return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 40),
-
+          const SizedBox(height: AppSize.spaceMedium),
           Row(
-            children: [
-              ShimmerBox(width: 90, height: 90, radius: 50),
-              SizedBox(width: 24),
+            children: const [
+              ShimmerBox(width: 90, height: 90, radius: AppSize.radiusLarge),
+              SizedBox(width: AppSize.spaceLarge),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -309,62 +114,70 @@ class _ProfileSkeleton extends StatelessWidget {
               ),
             ],
           ),
-
-          SizedBox(height: 20),
-          ShimmerBox(width: double.infinity, height: 22),
-          SizedBox(height: 8),
-          ShimmerBox(width: 80, height: 16),
-          ShimmerBox(width: 80, height: 16),
-
-          SizedBox(height: 20),
-          ShimmerBox(width: 120, height: 20),
-          SizedBox(height: 8),
-
+          const SizedBox(height: AppSize.spaceMedium),
+          const ShimmerBox(width: double.infinity, height: 22),
+          const SizedBox(height: AppSize.spaceSmall),
+          const ShimmerBox(width: 80, height: 16),
+          const SizedBox(height: AppSize.spaceSmall),
+          const ShimmerBox(width: 80, height: 16),
+          const SizedBox(height: AppSize.spaceMedium),
+          const ShimmerBox(width: 120, height: 20),
+          const SizedBox(height: AppSize.spaceSmall),
           Row(
-            children: [
+            children: const [
               ShimmerBox(width: 80, height: 30),
-              SizedBox(width: 10),
+              SizedBox(width: AppSize.spaceSmall),
               ShimmerBox(width: 80, height: 30),
             ],
           ),
-
-          SizedBox(height: 30),
-
+          const SizedBox(height: AppSize.spaceLarge),
           Row(
-            children: [
+            children: const [
               Expanded(child: ShimmerBox(width: double.infinity, height: 45)),
-              SizedBox(width: 12),
+              SizedBox(width: AppSize.spaceMedium),
               Expanded(child: ShimmerBox(width: double.infinity, height: 45)),
             ],
           ),
-
-          SizedBox(height: 40),
+          const SizedBox(height: AppSize.spaceExtraLarge),
         ],
       ),
     );
   }
 }
 
-class ShimmerBox extends StatelessWidget {
-  final double width;
-  final double height;
-  final double radius;
+//
+// ---------------- PROFILE ERROR ----------------
+class ProfileError extends StatelessWidget {
+  final String message;
 
-  const ShimmerBox({
-    super.key,
-    required this.width,
-    required this.height,
-    this.radius = 8,
-  });
+  const ProfileError({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: context.colorScheme.onSurface.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(radius),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error_outline,
+            color: Theme.of(context).colorScheme.error,
+            size: 60,
+          ),
+          const SizedBox(height: AppSize.spaceMedium),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontSize: AppSize.fontMedium),
+          ),
+          const SizedBox(height: AppSize.spaceLarge),
+          AppButton(
+            title: "Retry",
+            onPressed: () => context.read<ProfileCubit>().getUserProfile(),
+            type: AppButtonType.outlined,
+          ),
+        ],
       ),
     );
   }

@@ -7,11 +7,13 @@ part 'get_user_profile_response_model.g.dart';
 @freezed
 abstract class UserAcademicsProfileResponseModel
     with _$UserAcademicsProfileResponseModel {
-  const factory UserAcademicsProfileResponseModel({required UserAcademics user}) =
-      _UserAcademicsProfileResponseModel;
+  const factory UserAcademicsProfileResponseModel({
+    required UserAcademics user,
+  }) = _UserAcademicsProfileResponseModel;
 
-  factory UserAcademicsProfileResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$UserAcademicsProfileResponseModelFromJson(json);
+  factory UserAcademicsProfileResponseModel.fromJson(
+    Map<String, dynamic> json,
+  ) => _$UserAcademicsProfileResponseModelFromJson(json);
 }
 
 @freezed
@@ -23,7 +25,7 @@ abstract class UserAcademics with _$UserAcademics {
     required String email,
     required String password,
     required List<String> hobbies,
-    String? dateOfBirth, // could also be DateTime? with converter
+    String? dateOfBirth,
     required List<String> followers,
     required List<String> following,
     String? resetPasswordToken,

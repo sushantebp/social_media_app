@@ -1,3 +1,4 @@
+// ------------------ SCREENS ------------------
 export 'screens/chat/chat_screen.dart';
 export './screens/chat/chat_shell_screen.dart';
 export './screens/dashboard_screen.dart';
@@ -7,9 +8,20 @@ export 'screens/post/post_screen.dart';
 export './screens/post/post_shell_screen.dart';
 export 'screens/profile/profile_screen.dart';
 export './screens/profile/profile_shell_screen.dart';
-export 'cubit/bottom_bar_cubit.dart';
 export './screens/post/create_new_post_screen.dart';
-export './widgets/profile/custom_profile_tile.dart';
-export './cubit/profile_cubit.dart';
 export './screens/profile/edit_profile_screen.dart';
+
+// ------------------ CUBITS ------------------
+export 'cubit/bottom_bar_cubit.dart';
+export './cubit/profile_cubit.dart';
 export './cubit/post_cubit.dart';
+
+// ------------------ PROFILE WIDGETS ------------------
+export './widgets/profile/profile_details_loaded.dart';
+export './widgets/profile/profile_header_section.dart';
+export './widgets/profile/profile_name_email_section.dart';
+export './widgets/profile/profile_interests_section.dart';
+export './widgets/profile/profile_birthday_section.dart';
+export './widgets/profile/profile_buttons_section.dart';
+export './widgets/profile/interest_chip.dart';
+export './widgets/profile/stat_column.dart';
