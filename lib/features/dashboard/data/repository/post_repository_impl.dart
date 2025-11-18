@@ -48,9 +48,18 @@ class PostRepositoryImpl extends PostRepository {
   Future<Result<GetPostResponseModel>> getPosts({
     int page = 1,
     int limit = 10,
-  }) {
-    // TODO: implement getPosts
-    throw UnimplementedError();
+  }) async {
+    try {
+      final response = await _remoteDataSource.getPosts(
+        page: page,
+        limit: limit,
+      );
+      return Right(response);
+    } on DioException catch (e) {
+      return Left(DioAppException.fromDioError(e));
+    } catch (e) {
+      return Left(UnknownException("$e"));
+    }
   }
 
   @override
