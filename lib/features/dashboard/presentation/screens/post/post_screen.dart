@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
@@ -27,9 +28,10 @@ class _PostScreenState extends State<PostScreen> {
         return SafeArea(
           top: true,
           child: Scaffold(
+            floatingActionButton: const FAB(),
             body: state.when(
-              initial: () => _PostInitial(),
-              loading: () => _PostLoading(),
+              initial: () => const _PostInitial(),
+              loading: () => const _PostLoading(),
               loaded: (_, postResponse, _, _) =>
                   _PostLoaded(responseModel: postResponse!),
               error: (errorMessage) =>
@@ -38,6 +40,23 @@ class _PostScreenState extends State<PostScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+class FAB extends StatelessWidget {
+  const FAB({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      shape: const CircleBorder(),
+      backgroundColor: context.colorScheme.onSurface,
+      onPressed: () => context.router.push(const CreateNewPostRoute()),
+      child: FaIcon(
+        FontAwesomeIcons.fileCirclePlus,
+        color: context.colorScheme.surface,
+      ),
     );
   }
 }

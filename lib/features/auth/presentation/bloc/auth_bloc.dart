@@ -98,7 +98,7 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
       ),
       (response) => emit(
         state.copyWith(
-          authStatus: AuthStatus.unauthenticated,
+          authStatus: AuthStatus.authenticated,
           successMessage: response,
         ),
       ),

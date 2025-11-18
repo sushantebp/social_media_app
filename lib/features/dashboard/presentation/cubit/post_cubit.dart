@@ -19,7 +19,7 @@ class PostCubit extends BaseCubit<PostState> {
       result.fold(
         (failure) => emit(_Error(failure.message ?? "Failed to subscribe")),
         (url) =>
-            emit(_Loaded(successMessage: "Subscription required", url: url)),
+            emit(_Loaded(successMessage: "Subscription acquired", url: url)),
       );
     } catch (e) {
       emit(_Error(e.toString()));

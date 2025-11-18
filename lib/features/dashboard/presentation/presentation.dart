@@ -10,6 +10,7 @@ export 'screens/profile/profile_screen.dart';
 export './screens/profile/profile_shell_screen.dart';
 export './screens/post/create_new_post_screen.dart';
 export './screens/profile/edit_profile_screen.dart';
+export './screens/post/subscribe_screen.dart';
 
 // ------------------ CUBITS ------------------
 export 'cubit/bottom_bar_cubit.dart';
