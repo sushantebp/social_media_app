@@ -59,49 +59,21 @@ class PostCubit extends BaseCubit<PostState> {
     }
   }
 
-  /// ----------------------
-  /// Pagination logic for posts
-  /// ----------------------
-  final List<GetPostItem> _posts = [];
-  int _currentPage = 1;
-  bool _hasNextPage = true;
-  bool _isLoadingMore = false;
-
-  List<GetPostItem> get posts => List.unmodifiable(_posts);
-
-  Future<void> fetchPosts({bool refresh = false}) async {
-    if (_isLoadingMore) return;
-
-    if (refresh) {
-      _currentPage = 1;
-      _hasNextPage = true;
-      _posts.clear();
-    }
-
-    if (!_hasNextPage) return;
-
-    _isLoadingMore = true;
-    emit(PostState.loadingMore(_posts));
-
+  Future<void> getPosts() async {
+    emit(const _Loading());
     try {
-      final result = await _postRepository.getPosts(
-        page: _currentPage,
-        limit: 10,
-      );
+      final result = await _postRepository.getPosts();
 
       result.fold(
-        (failure) => emit(_Error(failure.message ?? "Failed to fetch posts")),
-        (data) {
-          _posts.addAll(data.postList);
-          _currentPage++;
-          _hasNextPage = data.hasNextPage;
-          emit(_PostsLoaded(posts: _posts, hasNextPage: _hasNextPage));
+        (failure) {
+          emit(_Error(failure.message ?? "Failed to get posts."));
+        },
+        (posts) {
+          emit(_Loaded(posts: posts));
         },
       );
     } catch (e) {
       emit(_Error(e.toString()));
-    } finally {
-      _isLoadingMore = false;
     }
   }
 }

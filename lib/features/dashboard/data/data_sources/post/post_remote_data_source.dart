@@ -121,7 +121,7 @@ class PostRemoteDataSourceImpl extends PostRemoteDataSource {
   @override
   Future<GetPostResponseModel> getPosts({int page = 1, int limit = 10}) async {
     try {
-      final response = await _dioClient.dio.post(
+      final response = await _dioClient.dio.get(
         ApiEndpoint.getPost,
         queryParameters: {'page': page, 'limit': limit},
       );
@@ -156,8 +156,19 @@ class PostRemoteDataSourceImpl extends PostRemoteDataSource {
   }
 
   @override
-  Future<CreatePostResponseModel> getPostById(String id) {
-    // TODO: implement getPostById
+  Future<CreatePostResponseModel> getPostById(String id) async {
+    // String endpoint = "${ApiEndpoint.getPostById}/$id";
+    // try {
+    //   final response = await _dioClient.dio.get(endpoint);
+    //   if(response.statusCode == 200){
+
+    //   }
+    // } on DioException catch (e) {
+    //   throw DioAppException.fromDioError(e);
+    // } catch (e) {
+    //   throw UnknownException("$e");
+    // }
+    // TODO: implement togglePost
     throw UnimplementedError();
   }
 

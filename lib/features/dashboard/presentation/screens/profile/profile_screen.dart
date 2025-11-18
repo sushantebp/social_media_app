@@ -180,8 +180,41 @@ class ProfileScreen extends StatelessWidget {
                               title: 'Log Out',
                               type: AppButtonType.outlined,
                               fgColor: Colors.red,
-                              onPressed: () =>
-                                  bloc.add(const LogoutSubmitted()),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        "Log Out",
+                                        style: context.textTheme.titleLarge,
+                                      ),
+                                      content: Text(
+                                        "Are you sure to logout?",
+                                        style: context.textTheme.titleMedium,
+                                      ),
+                                      actions: [
+                                        AppButton(
+                                          type: AppButtonType.text,
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          title: "No",
+                                        ),
+                                        AppButton(
+                                          type: AppButtonType.text,
+                                          onPressed: () {
+                                            bloc.add(const LogoutSubmitted());
+                                            context.router.replace(
+                                              const UserLoginRoute(),
+                                            );
+                                          },
+                                          title: "Yes",
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ),

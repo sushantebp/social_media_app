@@ -44,7 +44,7 @@ class _CreateNewPostScreenState extends State<CreateNewPostScreen> {
           error: (msg) {
             ToastHelper.error(context, msg ?? "Something went wrong");
           },
-          loaded: (_, _, message) {
+          loaded: (_, _, _, message) {
             ToastHelper.success(context, message ?? "Post created!");
             Navigator.of(context).pop(true);
           },
