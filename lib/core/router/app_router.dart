@@ -34,7 +34,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: UserLoginRoute.page),
     AutoRoute(page: UserRegisterRoute.page),
     AutoRoute(page: UserEmailVerifyRoute.page),
-    AutoRoute(page: UserRegisterFormRoute.page),
     AutoRoute(page: UserPasswordChangeRoute.page),
 
     // Dashboard (protected)
@@ -63,6 +62,11 @@ class AppRouter extends RootStackRouter {
         ),
       ],
     ),
+
+    // user info
+    AutoRoute(page: SelectDobRoute.page, guards: [_authGuard]),
+    AutoRoute(page: SelectAcademicQRoute.page, guards: [_authGuard]),
+    AutoRoute(page: SelectHobbieRoute.page, guards: [_authGuard]),
 
     // Post creation (protected)
     AutoRoute(page: CreateNewPostRoute.page, guards: [_authGuard]),
