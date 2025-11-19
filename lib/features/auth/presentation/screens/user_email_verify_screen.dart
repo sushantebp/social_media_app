@@ -25,13 +25,10 @@ class UserEmailVerifyScreen extends StatelessWidget {
         if (status == AuthStatus.authenticated) {
           ToastHelper.success(
             context,
-            state.successMessage ?? "Email verified successful",
+            state.successMessage ?? "Email verified successfu l",
           );
 
-          Future.delayed(
-            const Duration(milliseconds: 1024),
-            () => router.replace(const UserLoginRoute()),
-          );
+          router.push(const UserLoginRoute());
         } else if (status == AuthStatus.error) {
           ToastHelper.error(
             context,

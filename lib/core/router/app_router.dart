@@ -66,5 +66,6 @@ class AppRouter extends RootStackRouter {
 
     // Post creation (protected)
     AutoRoute(page: CreateNewPostRoute.page, guards: [_authGuard]),
+    AutoRoute(page: SubscribeRoute.page, guards: [_authGuard]),
   ];
 }

@@ -30,11 +30,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               horizontal: AppSize.paddingMedium,
             ),
             child: state.when(
-              initial: () => const ProfileInitial(),
-              loading: () => const ProfileLoading(),
+              initial: () => const _ProfileInitial(),
+              loading: () => const _ProfileLoading(),
               loaded: (userDetails, _, _, _, _) =>
-                  ProfileDetailsLoaded(user: userDetails!),
-              error: (errorMessage) => ProfileError(
+                  _ProfileLoaded(user: userDetails!),
+              error: (errorMessage) => _ProfileError(
                 message: errorMessage ?? "Failed to fetch profile",
               ),
             ),
@@ -47,10 +47,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 //
 // ---------------- PROFILE LOADED ----------------
-class ProfileDetailsLoaded extends StatelessWidget {
+class _ProfileLoaded extends StatelessWidget {
   final LocalUserDetailsModel user;
 
-  const ProfileDetailsLoaded({super.key, required this.user});
+  const _ProfileLoaded({required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +76,8 @@ class ProfileDetailsLoaded extends StatelessWidget {
 
 //
 // ---------------- PROFILE INITIAL ----------------
-class ProfileInitial extends StatelessWidget {
-  const ProfileInitial({super.key});
+class _ProfileInitial extends StatelessWidget {
+  const _ProfileInitial();
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +89,8 @@ class ProfileInitial extends StatelessWidget {
 
 //
 // ---------------- PROFILE LOADING ----------------
-class ProfileLoading extends StatelessWidget {
-  const ProfileLoading({super.key});
+class _ProfileLoading extends StatelessWidget {
+  const _ProfileLoading();
 
   @override
   Widget build(BuildContext context) {
@@ -147,10 +147,10 @@ class ProfileLoading extends StatelessWidget {
 
 //
 // ---------------- PROFILE ERROR ----------------
-class ProfileError extends StatelessWidget {
+class _ProfileError extends StatelessWidget {
   final String message;
 
-  const ProfileError({super.key, required this.message});
+  const _ProfileError({required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -158,18 +158,12 @@ class ProfileError extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error_outline,
-            color: Theme.of(context).colorScheme.error,
-            size: 60,
-          ),
+          Icon(Icons.error_outline, color: context.colorScheme.error, size: 60),
           const SizedBox(height: AppSize.spaceMedium),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontSize: AppSize.fontMedium),
+            style: context.textTheme.bodyMedium,
           ),
           const SizedBox(height: AppSize.spaceLarge),
           AppButton(

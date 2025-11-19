@@ -1,47 +1,201 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
-import 'package:social_media_app/features/dashboard/presentation/widgets/posts/post_list_widget.dart';
 
 @RoutePage()
-class PostScreen extends StatelessWidget {
+class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<PostCubit>();
-    cubit.getPosts();
+  State<PostScreen> createState() => _PostScreenState();
+}
 
+class _PostScreenState extends State<PostScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PostCubit>().getPosts();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocConsumer<PostCubit, PostState>(
-      buildWhen: (previous, current) => previous != current,
       listener: (context, state) {},
       builder: (context, state) {
-        return Scaffold(
-          body: state.when(
-            initial: () {
-              return const Center(child: Text("Post will be loaded"));
-            },
-            loading: () {
-              return const Center(
-                child: Text("hmmm... should use skeleton here,while loading"),
-              );
-            },
-            loaded: (_, postResponse, _, _) {
-              final posts = postResponse?.postList ?? [];
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: PostListWidget(posts: posts),
-              );
-            },
-            error: (errorMessage) {
-              return Center(
-                child: Text(errorMessage ?? "Failed to fetch posts."),
-              );
-            },
+        return SafeArea(
+          top: true,
+          child: Scaffold(
+            floatingActionButton: const FAB(),
+            body: state.when(
+              initial: () => const _PostInitial(),
+              loading: () => const _PostLoading(),
+              loaded: (_, postResponse, _, _) =>
+                  _PostLoaded(responseModel: postResponse!),
+              error: (errorMessage) =>
+                  _PostError(message: errorMessage ?? "Failed to fetch posts"),
+            ),
           ),
         );
       },
+    );
+  }
+}
+
+class FAB extends StatelessWidget {
+  const FAB({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      shape: const CircleBorder(),
+      backgroundColor: context.colorScheme.onSurface,
+      onPressed: () => context.router.push(const CreateNewPostRoute()),
+      child: FaIcon(
+        FontAwesomeIcons.fileCirclePlus,
+        color: context.colorScheme.surface,
+      ),
+    );
+  }
+}
+
+class _PostLoaded extends StatelessWidget {
+  final GetPostResponseModel responseModel;
+  const _PostLoaded({required this.responseModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return PostListView(responseModel: responseModel);
+  }
+}
+
+class _PostError extends StatelessWidget {
+  final String message;
+
+  const _PostError({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.error_outline, color: context.colorScheme.error, size: 60),
+          const SizedBox(height: AppSize.spaceMedium),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: context.textTheme.bodyMedium,
+          ),
+          const SizedBox(height: AppSize.spaceLarge),
+          AppButton(
+            title: "Retry",
+            onPressed: () => context.read<PostCubit>().getPosts(),
+            type: AppButtonType.outlined,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PostLoading extends StatelessWidget {
+  const _PostLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Card(
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ==== HEADER ====
+                  Row(
+                    children: [
+                      const ShimmerBox(width: 40, height: 40, radius: 50),
+                      const SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          ShimmerBox(width: 120, height: 12),
+                          SizedBox(height: 6),
+                          ShimmerBox(width: 80, height: 10),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // ==== IMAGE ====
+                  const ShimmerBox(
+                    width: double.infinity,
+                    height: 200,
+                    radius: 12,
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // ==== TITLE + CONTENT ====
+                  const ShimmerBox(width: 150, height: 14),
+                  const SizedBox(height: 8),
+                  const ShimmerBox(width: double.infinity, height: 12),
+                  const SizedBox(height: 6),
+                  const ShimmerBox(width: double.infinity, height: 12),
+                  const SizedBox(height: 6),
+                  const ShimmerBox(width: 180, height: 12),
+
+                  const SizedBox(height: 12),
+
+                  // ==== ACTIONS (like row) ====
+                  Row(
+                    children: const [
+                      ShimmerBox(width: 24, height: 24, radius: 50),
+                      SizedBox(width: 8),
+                      ShimmerBox(width: 40, height: 12),
+                    ],
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // ==== COMMENTS SECTION ====
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      ShimmerBox(width: double.infinity, height: 10),
+                      SizedBox(height: 6),
+                      ShimmerBox(width: 200, height: 10),
+                    ],
+                  ),
+
+                  const SizedBox(height: 12),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _PostInitial extends StatelessWidget {
+  const _PostInitial();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Fetching Post...", style: context.textTheme.bodyMedium),
     );
   }
 }

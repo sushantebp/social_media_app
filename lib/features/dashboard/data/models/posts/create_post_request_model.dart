@@ -14,7 +14,6 @@ class CreatePostRequestModel {
 
   Future<FormData> toFormData() async {
     final Map<String, dynamic> fields = {'title': title, 'content': content};
-
     // Only attach image if it exists
     if (image != null) {
       fields['image'] = await MultipartFile.fromFile(
