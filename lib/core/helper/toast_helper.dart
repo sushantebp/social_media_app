@@ -49,19 +49,18 @@ class ToastHelper {
     _showToast(
       context,
       message: message,
-      backgroundColor: Colors.blue.shade600,
-      textColor: theme.colorScheme.onPrimary,
+      backgroundColor: theme.colorScheme.tertiary,
+      textColor: theme.colorScheme.onTertiary,
       icon: FontAwesomeIcons.circleInfo,
     );
   }
 
   static void warning(BuildContext context, String message) {
-    final theme = Theme.of(context);
     _showToast(
       context,
       message: message,
       backgroundColor: Colors.orange.shade700,
-      textColor: theme.colorScheme.onPrimary,
+      textColor: Colors.black,
       icon: FontAwesomeIcons.triangleExclamation,
     );
   }
@@ -71,8 +70,8 @@ class ToastHelper {
     _showToast(
       context,
       message: message,
-      backgroundColor: Colors.red.shade700,
-      textColor: theme.colorScheme.onPrimary,
+      backgroundColor: theme.colorScheme.error,
+      textColor: theme.colorScheme.onError,
       icon: FontAwesomeIcons.circleXmark,
     );
   }

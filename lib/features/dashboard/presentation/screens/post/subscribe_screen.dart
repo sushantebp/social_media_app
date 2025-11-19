@@ -15,7 +15,7 @@ class SubscribeScreen extends StatelessWidget {
     final router = context.router;
 
     return Scaffold(
-      appBar: const MyAppBar(title: "Subscribe", centerTitle: true),
+      appBar: const MyAppBar(allowBack: true),
       body: BlocListener<PostCubit, PostState>(
         listener: (context, state) async {
           // Check if loaded state contains a subscription URL

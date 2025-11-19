@@ -140,3 +140,102 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 }
+
+/// CRUD operation
+/// hobbbies,academiceq,dob, location(optional)
+@RoutePage()
+class ScreenEditProfile extends StatelessWidget {
+  const ScreenEditProfile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const MyAppBar(
+        title: "Edit Profile",
+        allowBack: true,
+        centerTitle: false,
+      ),
+      body: BlocConsumer<ProfileCubit, ProfileState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            orElse: () {},
+            loaded: (_, __, ___, ____, successMessage) {
+              ToastHelper.success(context, successMessage!);
+            },
+            error: (errorMessage) {
+              ToastHelper.error(context, errorMessage!);
+            },
+          );
+        },
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () => _ProfileNotLoaded(),
+            loaded: (userDetails, hobbies, dob, academics, _) =>
+                _LoadedProfileData(),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _ProfileNotLoaded extends StatelessWidget {
+  const _ProfileNotLoaded();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.error_outline, color: context.colorScheme.error, size: 60),
+          const SizedBox(height: AppSize.spaceLarge),
+        ],
+      ),
+    );
+  }
+}
+
+class _LoadedProfileData extends StatelessWidget {
+  const _LoadedProfileData();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: AppSize.paddingMedium),
+      child: Column(children: [
+
+      ],),
+    );
+  }
+}
+
+// select hobbies screen
+// select location screen
+class Hobbies extends StatelessWidget {
+  final List<String> hobbies;
+  final int? selectedIndex;
+  final ValueChanged<int> onSelected;
+
+  const Hobbies({
+    super.key,
+    required this.hobbies,
+    required this.selectedIndex,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: List<Widget>.generate(hobbies.length, (index) {
+        return ChoiceChip(
+          label: Text(hobbies[index], style: context.textTheme.titleMedium),
+          selected: selectedIndex == index,
+          onSelected: (_) => onSelected(index),
+        );
+      }),
+    );
+  }
+}

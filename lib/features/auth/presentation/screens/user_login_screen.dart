@@ -39,7 +39,8 @@ class UserLoginScreen extends StatelessWidget {
 
           Future.microtask(() {
             if (!isRegistered) {
-              router.replace(const UserRegisterFormRoute());
+              // router.replace(const UserRegisterFormRoute());
+              router.replace(const SelectDobRoute());
             } else if (!isSub) {
               router.push(const SubscribeRoute());
             } else {
