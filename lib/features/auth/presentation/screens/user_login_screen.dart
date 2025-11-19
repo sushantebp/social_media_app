@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
-import 'package:social_media_app/features/dashboard/presentation/cubit/profile_cubit.dart';
+import 'package:social_media_app/features/dashboard/dashboard.dart';
 
 @RoutePage()
 class UserLoginScreen extends StatelessWidget {
@@ -28,17 +28,22 @@ class UserLoginScreen extends StatelessWidget {
             state.successMessage ?? "Login successful",
           );
 
-          final cubit = context.read<ProfileCubit>();
+          final profileCubit = context.read<ProfileCubit>();
+          final postCubit = context.read<PostCubit>();
 
-          await cubit.getUserProfile();
+          await profileCubit.getUserProfile();
 
-          final isRegistered = cubit.hasRegistered();
+          final isRegistered = profileCubit.hasRegistered();
+
+          final isSub = await postCubit.isSubscribe();
 
           Future.microtask(() {
-            if (isRegistered) {
-              router.replace(const DashboardRoute());
-            } else {
+            if (!isRegistered) {
               router.replace(const UserRegisterFormRoute());
+            } else if (!isSub) {
+              router.push(const SubscribeRoute());
+            } else {
+              router.replace(const DashboardRoute());
             }
           });
         } else if (status == AuthStatus.error) {

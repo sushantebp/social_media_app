@@ -22,8 +22,7 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PostCubit, PostState>(
-      listener: (context, state) {},
+    return BlocBuilder<PostCubit, PostState>(
       builder: (context, state) {
         return SafeArea(
           top: true,
@@ -49,10 +48,21 @@ class FAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = context.router;
+    final cubit = context.read<PostCubit>();
+
     return FloatingActionButton(
+      heroTag: "Add Post",
       shape: const CircleBorder(),
       backgroundColor: context.colorScheme.onSurface,
-      onPressed: () => context.router.push(const CreateNewPostRoute()),
+      onPressed: () async {
+        final isSub = await cubit.isSubscribe();
+        if (!isSub) {
+          router.push(const SubscribeRoute());
+        } else {
+          router.push(const CreateNewPostRoute());
+        }
+      },
       child: FaIcon(
         FontAwesomeIcons.fileCirclePlus,
         color: context.colorScheme.surface,
