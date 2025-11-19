@@ -101,7 +101,7 @@ class _UserRegisterFormScreenState extends State<UserRegisterFormScreen> {
           loaded: (_, __, ___, ____, successMessage) {
             if (successMessage != null && successMessage.isNotEmpty) {
               ToastHelper.success(context, successMessage);
-              context.router.replace(const DashboardRoute());
+              context.router.push(const SubscribeRoute());
             }
           },
           error: (errorMessage) {

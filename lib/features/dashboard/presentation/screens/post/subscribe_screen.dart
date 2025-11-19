@@ -23,6 +23,7 @@ class SubscribeScreen extends StatelessWidget {
             loaded: (_, _, successMessage, url) async {
               if (url != null && url.isNotEmpty) {
                 final uri = Uri.parse(url);
+
                 if (await canLaunchUrl(uri)) {
                   await launchUrl(uri, mode: LaunchMode.externalApplication);
                 } else {
@@ -34,7 +35,7 @@ class SubscribeScreen extends StatelessWidget {
                 }
               } else if (successMessage != null && successMessage.isNotEmpty) {
                 ToastHelper.success(context, successMessage);
-                router.push(const CreateNewPostRoute());
+                router.replace(const DashboardRoute());
               }
             },
             orElse: () {},
