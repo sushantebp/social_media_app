@@ -16,10 +16,36 @@ class PostCubit extends BaseCubit<PostState> {
 
     try {
       final result = await _postRepository.subscribe();
-      result.fold(
-        (failure) => emit(_Error(failure.message ?? "Failed to subscribe")),
-        (url) =>
-            emit(_Loaded(successMessage: "Subscription acquired", url: url)),
+      await result.fold(
+        (failure) async {
+          emit(_Error(failure.message ?? "Failed to subscribe"));
+        },
+        (url) async {
+          // Fetch posts after subscribing
+          final postsResult = await _postRepository.getPosts();
+          postsResult.fold(
+            (failure) {
+              // If fetching posts fails, still emit subscription success
+              emit(
+                _Loaded(
+                  successMessage: "Subscription acquired",
+                  url: url,
+                  postResponse: null,
+                ),
+              );
+            },
+            (posts) {
+              // Emit loaded state with posts + subscription info
+              emit(
+                _Loaded(
+                  successMessage: "Subscription acquired",
+                  url: url,
+                  posts: posts,
+                ),
+              );
+            },
+          );
+        },
       );
     } catch (e) {
       emit(_Error(e.toString()));

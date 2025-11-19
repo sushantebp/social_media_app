@@ -77,7 +77,10 @@ class _PostLoaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PostListView(responseModel: responseModel);
+    return RefreshIndicator(
+      onRefresh: () => context.read<PostCubit>().getPosts(),
+      child: PostListView(responseModel: responseModel),
+    );
   }
 }
 

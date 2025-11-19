@@ -14,29 +14,54 @@ class SubscribeScreen extends StatelessWidget {
     final cubit = context.read<PostCubit>();
     final router = context.router;
 
-    return Scaffold(
-      appBar: const MyAppBar(allowBack: true),
-      body: BlocListener<PostCubit, PostState>(
-        listener: (context, state) async {
-          // Check if loaded state contains a subscription URL
-          state.maybeWhen(
-            loaded: (_, _, successMessage, url) async {
-              if (url != null && url.isNotEmpty) {
-                final uri = Uri.parse(url);
+    /// Handles subscription result
+    Future<void> handleSubscription(String? url, String? successMessage) async {
+      if (url != null && url.isNotEmpty) {
+        final uri = Uri.parse(url);
 
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(uri, mode: LaunchMode.externalApplication);
-                } else {
-                  if (!context.mounted) return;
-                  ToastHelper.error(
-                    context,
-                    "Could not open subscription link.",
-                  );
-                }
-              } else if (successMessage != null && successMessage.isNotEmpty) {
-                ToastHelper.success(context, successMessage);
-                router.replace(const DashboardRoute());
-              }
+        if (await canLaunchUrl(uri)) {
+          // Open in-app webview and wait until the user closes it
+          final launched = await launchUrl(
+            uri,
+            mode: LaunchMode.inAppWebView,
+            webViewConfiguration: const WebViewConfiguration(
+              enableDomStorage: true,
+              enableJavaScript: true,
+            ),
+          );
+
+          if (!launched) {
+            if (!context.mounted) return;
+            ToastHelper.error(context, "Could not open subscription link.");
+            return;
+          }
+
+          // User closed the webview
+          if (!context.mounted) return;
+          ToastHelper.success(context, "Subscription process finished!");
+          router.pop(); // Return to PostScreen
+        } else {
+          if (!context.mounted) return;
+          ToastHelper.error(context, "Could not open subscription link.");
+        }
+      } else if (successMessage != null && successMessage.isNotEmpty) {
+        // Fallback if URL not provided
+        if (!context.mounted) return;
+        ToastHelper.success(context, successMessage);
+        router.pop(); // Return to PostScreen
+      }
+    }
+
+    return Scaffold(
+      body: BlocListener<PostCubit, PostState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            loaded: (_, _, successMessage, url) {
+              handleSubscription(url, successMessage);
+            },
+            error: (message) {
+              if (!context.mounted) return;
+              ToastHelper.error(context, message ?? "Subscription failed");
             },
             orElse: () {},
           );
@@ -47,12 +72,13 @@ class SubscribeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Please subscribe to access the latest posts and updates.",
+                "Please subscribe to add posts.",
                 style: context.textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSize.spaceExtraLarge),
               AppButton(
+                bgColor: Colors.red,
                 title: "Subscribe Now",
                 onPressed: () => cubit.subscribe(),
                 type: AppButtonType.primary,
@@ -62,7 +88,7 @@ class SubscribeScreen extends StatelessWidget {
               const SizedBox(height: AppSize.spaceMedium),
               AppButton(
                 title: "Maybe Later",
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => router.pop(),
                 type: AppButtonType.outlined,
                 width: double.infinity,
                 height: 50,

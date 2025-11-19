@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/data/data.dart';
@@ -59,7 +57,6 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
         data: jsonEncode({'hobbies': hobbies}),
       );
       if (response.statusCode == 200) {
-        log("Response : ${response.data}");
         return HobbiesUpdateResponseModel.fromJson(response.data);
       }
       throw DioAppException.fromDioError(

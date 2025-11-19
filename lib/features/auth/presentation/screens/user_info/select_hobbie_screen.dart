@@ -72,7 +72,8 @@ class _SelectHobbieScreenState extends State<SelectHobbieScreen> {
             ),
 
             const Spacer(),
-            Expanded(
+            SizedBox(
+              width: double.infinity,
               child: AppButton(
                 title: "Next",
                 onPressed: () {

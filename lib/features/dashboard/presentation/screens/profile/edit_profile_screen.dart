@@ -204,38 +204,9 @@ class _LoadedProfileData extends StatelessWidget {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: AppSize.paddingMedium),
       child: Column(children: [
-
+        // ui of hobbie
+        //
       ],),
-    );
-  }
-}
-
-// select hobbies screen
-// select location screen
-class Hobbies extends StatelessWidget {
-  final List<String> hobbies;
-  final int? selectedIndex;
-  final ValueChanged<int> onSelected;
-
-  const Hobbies({
-    super.key,
-    required this.hobbies,
-    required this.selectedIndex,
-    required this.onSelected,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: List<Widget>.generate(hobbies.length, (index) {
-        return ChoiceChip(
-          label: Text(hobbies[index], style: context.textTheme.titleMedium),
-          selected: selectedIndex == index,
-          onSelected: (_) => onSelected(index),
-        );
-      }),
     );
   }
 }
