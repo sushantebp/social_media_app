@@ -75,7 +75,7 @@ class DioAppException extends AppException {
             dioError: error,
             type: DioExceptionType.connectionError,
             statusCode: null,
-            message: "No internet connection. Check your network.",
+            message: AppConstant.noInternetConn,
           );
         }
 
