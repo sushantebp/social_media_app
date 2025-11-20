@@ -12,6 +12,8 @@ class AppConstant {
   static const String userInfoKey = "user-key";
   static const String userLcoationBox = "user-location-box";
   static const String userLocationKey = "user-location-key";
+  static const String postDetailBox = "post-detail-box";
+  static const String postDetailKey = "post-detail-key";
 
   // onboarding related
   static const String completed = "completed";

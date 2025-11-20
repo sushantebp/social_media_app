@@ -13,7 +13,6 @@ export './models/profile/hobbies_update_response_model.dart';
 export './models/profile/get_user_profile_response_model.dart';
 export './repository/post_repository_impl.dart';
 
-export 'data_sources/post/post_local_data_source.dart';
 export 'data_sources/post/post_remote_data_source.dart';
 export './models/posts/get_post_response_model.dart';
 export './models/posts/get_user_feed_response_model.dart';
