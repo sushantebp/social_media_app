@@ -32,11 +32,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: state.when(
               initial: () => const _ProfileInitial(),
               loading: () => const _ProfileLoading(),
-              loaded: (userDetails, _, _, _, _) =>
-                  _ProfileLoaded(user: userDetails!),
-              error: (errorMessage) => _ProfileError(
-                message: errorMessage ?? "Failed to fetch profile",
-              ),
+              loaded: (user, _, __, ___, ____) => _ProfileLoaded(user: user),
+              error: (message) => _ProfileError(message: message!),
+              offline: (user) => _ProfileLoaded(user: user),
             ),
           ),
         );

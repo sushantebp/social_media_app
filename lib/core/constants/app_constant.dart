@@ -18,4 +18,7 @@ class AppConstant {
 
   // json parsing
   static const String message = 'message';
+  // exception
+  static const String noInternetConn =
+      "No internet connection. Check your network.";
 }
