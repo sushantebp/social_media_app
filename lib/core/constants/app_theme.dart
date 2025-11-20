@@ -13,7 +13,7 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: Colors.white,
     fontFamily: AppConstant.latoFont,
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
       displayLarge: TextStyle(
         fontFamily: AppConstant.poppinsFont,
         fontWeight: FontWeight.w800,
@@ -110,6 +110,16 @@ class AppTheme {
         ),
       ),
     ),
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: Colors.white,
+      indicatorColor: seedColor.withValues(alpha: 0.3),
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
+          return IconThemeData(color: seedColor);
+        }
+        return IconThemeData(color: Colors.grey.shade600);
+      }),
+    ),
   );
 
   // Dark Theme
@@ -121,7 +131,7 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: Colors.black,
     fontFamily: AppConstant.latoFont,
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
       displayLarge: TextStyle(
         fontFamily: AppConstant.poppinsFont,
         fontWeight: FontWeight.w800,
@@ -217,6 +227,16 @@ class AppTheme {
           fontWeight: FontWeight.w600,
         ),
       ),
+    ),
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: Colors.black,
+      indicatorColor: seedColor.withValues(alpha: 0.3),
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
+          return IconThemeData(color: seedColor);
+        }
+        return IconThemeData(color: Colors.grey.shade400);
+      }),
     ),
   );
 }

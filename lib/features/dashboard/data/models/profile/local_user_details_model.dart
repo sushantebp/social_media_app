@@ -7,7 +7,6 @@ import 'get_user_profile_response_model.dart';
 part 'local_user_details_model.freezed.dart';
 part 'local_user_details_model.g.dart';
 
-@freezed
 @HiveType(typeId: 2)
 abstract class LocalUserDetailsModel with _$LocalUserDetailsModel {
   const factory LocalUserDetailsModel({
