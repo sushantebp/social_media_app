@@ -30,7 +30,7 @@ class _SelectHobbieScreenState extends State<SelectHobbieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = context.colorScheme;
 
     return Scaffold(
       appBar: const MyAppBar(title: "Select your hobby", centerTitle: true),

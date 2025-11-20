@@ -69,15 +69,24 @@ class DioAppException extends AppException {
           );
         }
 
-      case DioExceptionType.unknown:
+      case DioExceptionType.connectionError:
         if (error.error is SocketException) {
           return DioAppException._(
             dioError: error,
-            type: DioExceptionType.unknown,
+            type: DioExceptionType.connectionError,
             statusCode: null,
             message: "No internet connection. Check your network.",
           );
         }
+
+        return DioAppException._(
+          dioError: error,
+          type: DioExceptionType.connectionError,
+          statusCode: null,
+          message: "Connection failed. Please try again.",
+        );
+
+      case DioExceptionType.unknown:
         return DioAppException._(
           dioError: error,
           type: DioExceptionType.unknown,

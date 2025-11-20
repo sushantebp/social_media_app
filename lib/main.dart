@@ -8,7 +8,7 @@ import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 import 'package:social_media_app/features/onboarding/onboarding.dart';
-import 'package:social_media_app/features/splash/cubit/splash_cubit.dart';
+import 'package:social_media_app/features/splash/splash.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");

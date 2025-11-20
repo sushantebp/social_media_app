@@ -39,7 +39,6 @@ class UserLoginScreen extends StatelessWidget {
 
           Future.microtask(() {
             if (!isRegistered) {
-              // router.replace(const UserRegisterFormRoute());
               router.replace(const SelectDobRoute());
             } else if (!isSub) {
               router.push(const SubscribeRoute());
@@ -68,10 +67,7 @@ class UserLoginScreen extends StatelessWidget {
                     const SizedBox(height: AppSize.marginExtraLarge),
                     Text(
                       'Welcome Back 👋',
-                      style: context.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: context.colorScheme.onSurface,
-                      ),
+                      style: context.textTheme.headlineSmall,
                     ),
                     const SizedBox(height: AppSize.marginSmall),
                     Text(

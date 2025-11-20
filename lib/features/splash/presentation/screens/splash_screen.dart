@@ -4,8 +4,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/core/core.dart';
-import 'package:social_media_app/features/onboarding/cubit/onboarding_cubit.dart';
-import 'package:social_media_app/features/splash/cubit/splash_cubit.dart';
+import 'package:social_media_app/features/onboarding/onboarding.dart';
+import 'package:social_media_app/features/splash/splash.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
