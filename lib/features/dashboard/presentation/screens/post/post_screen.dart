@@ -33,8 +33,7 @@ class _PostScreenState extends State<PostScreen> {
               loading: () => const _PostLoading(),
               loaded: (_, postResponse, _, _) =>
                   _PostLoaded(responseModel: postResponse!),
-              error: (errorMessage) =>
-                  _PostError(message: errorMessage ?? "Failed to fetch posts"),
+              error: (errorMessage) => _PostError(message: errorMessage!),
             ),
           ),
         );
