@@ -43,3 +43,14 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+.env
+*.freezed.dart
+*.g.dart
+*.gr.dart
+
+bloc_observer.dart
+
+# FVM Version Cache
+.fvm/
+todo.md
