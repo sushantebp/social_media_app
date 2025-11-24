@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
+@LazySingleton(as: PostRepository)
 class PostRepositoryImpl extends PostRepository {
   final PostRemoteDataSource _remoteDataSource;
   PostRepositoryImpl(this._remoteDataSource);

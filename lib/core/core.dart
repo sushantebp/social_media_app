@@ -19,8 +19,6 @@ export './exception/dio_app_exception.dart';
 
 export './config/result.dart';
 
-export './di/di.dart';
-
 export './config/app_config.dart';
 
 export './network/dio_client.dart';
@@ -37,3 +35,9 @@ export './helper/toast_helper.dart';
 export './services/location_service.dart';
 
 export 'widgets/shimmer_box.dart';
+
+export './widgets/spark_button.dart';
+
+export './service_locator/injection.config.dart';
+
+export './service_locator/injection.dart';

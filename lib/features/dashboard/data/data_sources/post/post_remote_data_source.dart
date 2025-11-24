@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
@@ -19,6 +20,7 @@ abstract class PostRemoteDataSource {
   Future<String> togglePost();
 }
 
+@LazySingleton(as: PostRemoteDataSource)
 class PostRemoteDataSourceImpl extends PostRemoteDataSource {
   final DioClient _dioClient;
   PostRemoteDataSourceImpl(this._dioClient);

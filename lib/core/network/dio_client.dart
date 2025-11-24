@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 
+@lazySingleton
 class DioClient {
   late final Dio _dio;
   DioClient._() {

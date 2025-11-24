@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
@@ -18,6 +19,8 @@ part 'profile_state.dart';
 /// - [_Loaded] when remote fetch/update succeeds
 /// - [_Offline] when no internet but cached data exists
 /// - [_Error] when operation fails
+///
+@injectable
 class ProfileCubit extends BaseCubit<ProfileState> {
   final ProfileRepository _profileRepository;
 

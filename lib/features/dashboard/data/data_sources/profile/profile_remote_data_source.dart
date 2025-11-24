@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/data/data.dart';
 
@@ -23,6 +24,7 @@ abstract class ProfileRemoteDataSource {
   Future<SuccessResponse> unFollowUser(String unfollowUserId);
 }
 
+@LazySingleton(as: ProfileRemoteDataSource)
 class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   final DioClient _dioClient;
   ProfileRemoteDataSourceImpl(this._dioClient);

@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
@@ -9,9 +10,9 @@ abstract class ProfileLocalDataSource {
   Future<void> saveUserProfileDetails(LocalUserDetailsModel userDetails);
 
   LocalUserDetailsModel? getUserDetails();
-  
 }
 
+@LazySingleton(as: ProfileLocalDataSource)
 class ProfileLocalDataSourceImpl extends ProfileLocalDataSource {
   final LocationService _locationService;
   final LocalStorageService _localStorageService;

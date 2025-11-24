@@ -1,5 +1,7 @@
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 
+@injectable
 class SplashCubit extends BaseCubit<bool> {
   SplashCubit() : super(false);
 

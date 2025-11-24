@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/data/data.dart';
 import 'package:social_media_app/features/dashboard/domain/domain.dart';
 
+@LazySingleton(as: ProfileRepository)
 class ProfileRepositoryImpl extends ProfileRepository {
   final ProfileLocalDataSource _localDataSource;
   final ProfileRemoteDataSource _remoteDataSource;

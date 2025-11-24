@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
@@ -16,6 +17,7 @@ part 'auth_state.dart';
 /// - Login
 /// - Logout
 ///
+@injectable
 class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
 

@@ -203,10 +203,12 @@ class _LoadedProfileData extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: AppSize.paddingMedium),
-      child: Column(children: [
-        // ui of hobbie
-        //
-      ],),
+      child: Column(
+        children: [
+          // ui of hobbie
+          //
+        ],
+      ),
     );
   }
 }

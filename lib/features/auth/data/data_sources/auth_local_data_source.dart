@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 
@@ -10,6 +11,7 @@ abstract class AuthLocalDataSource {
   Future<void> clearAll();
 }
 
+@LazySingleton(as: AuthLocalDataSource)
 class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   final SecureStorageService _secureStorageService;
   final LocalStorageService _localStorageService;

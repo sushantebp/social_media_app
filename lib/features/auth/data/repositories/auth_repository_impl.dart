@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 
+@LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl extends AuthRepository {
   final AuthRemoteDataSource _authRemoteDataSource;
   final AuthLocalDataSource _authLocalDataSource;

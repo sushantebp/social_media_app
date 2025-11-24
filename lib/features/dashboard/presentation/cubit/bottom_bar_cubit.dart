@@ -1,5 +1,7 @@
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 
+@injectable
 class BottomBarCubit extends BaseCubit<bool> {
   BottomBarCubit() : super(true);
 

@@ -1,4 +1,5 @@
 import 'package:hive_ce_flutter/adapters.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
@@ -7,6 +8,7 @@ import 'package:social_media_app/hive_registrar.g.dart';
 /// [_userInfo] define basic stuff of user like name,email
 /// [_userDetails] define whole about user details like hobbies,their location etc
 /// [_userLocation] define about user's location's lat and lang,basically coordinates
+@lazySingleton
 class LocalStorageService {
   LocalStorageService._();
 

@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 
 part 'post_state.dart';
 part 'post_cubit.freezed.dart';
 
+@injectable
 class PostCubit extends BaseCubit<PostState> {
   final PostRepository _postRepository;
   PostCubit(this._postRepository) : super(const _Initial());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -6,9 +7,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
+import 'package:social_media_app/features/splash/splash.dart';
 import 'package:social_media_app/features/dashboard/dashboard.dart';
 import 'package:social_media_app/features/onboarding/onboarding.dart';
-import 'package:social_media_app/features/splash/splash.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -18,7 +19,7 @@ void main() async {
     storageDirectory: HydratedStorageDirectory(storage.path),
   );
   // Bloc.observer = AppBlocObserver();
-  initDependencies();
+  configureDependencies();
   runApp(const SocialMediaApp());
 }
 
@@ -29,12 +30,12 @@ class SocialMediaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => SplashCubit()),
-        BlocProvider(create: (_) => OnboardingCubit()),
-        BlocProvider(create: (_) => AuthBloc(sl<AuthRepository>())),
-        BlocProvider(create: (_) => BottomBarCubit()),
-        BlocProvider(create: (_) => ProfileCubit(sl<ProfileRepository>())),
-        BlocProvider(create: (_) => PostCubit(sl<PostRepository>())),
+        BlocProvider(create: (_) => getIt<SplashCubit>()),
+        BlocProvider(create: (_) => getIt<OnboardingCubit>()),
+        BlocProvider(create: (_) => getIt<AuthBloc>()),
+        BlocProvider(create: (_) => getIt<BottomBarCubit>()),
+        BlocProvider(create: (_) => getIt<ProfileCubit>()),
+        BlocProvider(create: (_) => getIt<PostCubit>()),
       ],
       child: MaterialApp.router(
         theme: AppTheme.lightTheme,

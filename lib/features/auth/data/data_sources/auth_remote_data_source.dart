@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 import 'package:social_media_app/core/core.dart';
 import 'package:social_media_app/features/auth/auth.dart';
@@ -11,6 +12,7 @@ abstract class AuthRemoteDataSource {
   Future<void> logoutUser();
 }
 
+@LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   final DioClient _dioClient;
   AuthRemoteDataSourceImpl(this._dioClient);
